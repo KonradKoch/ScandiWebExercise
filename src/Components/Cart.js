@@ -5,6 +5,7 @@ import { currCurrencySymbol, currencyPick } from "../redux/selectors/CurrenciesS
 import { getProductAttributes, getProductDetailsData } from "../redux/selectors/ProductsSelector";
 import CartItem from "./CartItem";
 import styled from "styled-components";
+import { addToCart, removeFromCart } from "../redux/actions/actions";
 
 const CartMain = styled.div`
     padding: 5em 0 0 3%;
@@ -26,13 +27,13 @@ class Cart extends Component {
         return (
             <CartMain>
                 <p>CART</p>
-        {this.props.cartInfo.map((product) => {
+        {(this.props.cartInfo.length > 0)? this.props.cartInfo.map((product) => {
             return (
-                <CartItem attributes={product}/>
+                <CartItem removeFromCart={removeFromCart} addToCart={addToCart} attributes={product}/>
                 
                 )
                 
-        })}
+        }): "There are no products in your basket."}
         </CartMain>
 
         )

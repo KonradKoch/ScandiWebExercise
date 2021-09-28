@@ -15,20 +15,20 @@ const MainProductCard = styled.div
     display: flex;
     flex-wrap: wrap;
     grid-gap: 10px;
-      
+    margin-bottom: 10rem;  
       
       
     `
 const PhotoSection = styled.div `
     display: flex;
-    grid-gap: 30px;
+    grid-gap: 10px;
 `
 
 const ImagesContainer = styled.div
     `
     display: flex;
     flex-direction: column;
-    grid-gap: 20px;
+    grid-gap: 7px;
    
     `
 
@@ -68,7 +68,7 @@ flex-direction: row;
 `
 
 const ProductAttributesContainer = styled.div `
-    width: 35rem;
+    width: 34rem;
 `
 
 const AttributeValue = styled.label `
@@ -290,9 +290,9 @@ class ProductCard extends Component {
            <PRICE>PRICE:</PRICE>
            {product.prices.filter(price => 
                         price.currency === this.props.currentCurrency).map((price) =>
-                         <PriceLabel2 value={this.props.currencySymbol + price.amount.toFixed(2)} name="price">{this.props.currencySymbol + price.amount.toFixed(2)}</PriceLabel2>)}
+                         <PriceLabel2 value={product.prices.filter(prices => prices.currency === 'USD').map((price)=> '$' + price.amount)} name="price">{this.props.currencySymbol + price.amount.toFixed(2)}</PriceLabel2>)}
            <div dangerouslySetInnerHTML={{__html: `${product.description}`}} />
-           <div style={{display: 'flex', flexDirection: 'column', flexFlow: "row-reverse"}}><AddToCartButton type="button" onClick={this.handleAddToCart} disabled={this.state.shoppingDisabled} name="add-to-cart">ADD TO CART</AddToCartButton></div>
+           <div style={{position: 'absolute', left: "30%"}}><AddToCartButton type="button" onClick={this.handleAddToCart} disabled={this.state.shoppingDisabled} name="add-to-cart">ADD TO CART</AddToCartButton></div>
             </ProductAttributesContainer>
            </>
            )}

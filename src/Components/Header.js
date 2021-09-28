@@ -99,7 +99,11 @@ position: absolute;
 bottom: 0.1rem;
 right: 0.1rem;
 `
-
+const BasketContainer = styled.div `
+  align-self: center;
+  position: absolute;
+  right: 2rem;
+`
 
 
 class Header extends Component {
@@ -220,6 +224,7 @@ class Header extends Component {
                 )
             })}
             </NavCategoryDiv>
+            
             <DropDownContainer>
         <DropDownHeader onClick={() => this.togglingCurrencyMenu()}>
             {this.props.currencySymbol || '$'} <VectorLabel>{this.state.isOpen? vector1 : vector0}</VectorLabel>
@@ -236,8 +241,11 @@ class Header extends Component {
                     })}
                 </DropDownList>
             </DropDownListContainer>
-        <Link to={"/shop/cart/"}>{shopping}</Link>
+        
         </DropDownContainer>
+        <BasketContainer>
+        <Link to={"/shop/cart/"}>{shopping}</Link>
+        </BasketContainer>
         </HeaderDiv>
         </MainHeaderDiv>
         )

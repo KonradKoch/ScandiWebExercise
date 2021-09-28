@@ -6,7 +6,7 @@ export const GET_CURRENCY = "getCurrency";
 export const GET_CURRENCY_SYMBOL ="getCurrencySymbol";
 export const ADD_TO_CART= "addToCart";
 export const REMOVE_FROM_CART = "removeFromCart";
-export const UPDATE_CART_QUANTITY = "updateCartQuantity";
+
 
 export const pickCategory = (value) => ({
     type: PICK_CATEGORY,
@@ -41,12 +41,12 @@ export const addToCart = (order) => {
     }
 }
 
-export const updateCartQuantity = (productName) => {
+export const removeFromCart = (order) => {
     return {
-        type: UPDATE_CART_QUANTITY,
+        type: REMOVE_FROM_CART,
         payload: {
-            productName: productName,
-            
+            order,
+            quantity: 1
         }
     }
 }

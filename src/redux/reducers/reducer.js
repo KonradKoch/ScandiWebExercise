@@ -54,8 +54,27 @@ export const reducer = (state = initialState, {type, payload}) => {
                     shoppingCart: [...state.shoppingCart, payload]
                 }
             }
+        case actions.REMOVE_FROM_CART:
+            const item2 = state.shoppingCart.find(product => JSON.stringify(product.order) === JSON.stringify(payload.order.order));
+            const index = state.shoppingCart.findIndex(item => item.order === payload.order.order)
         
-        
+            if(item2.quantity > 1) {
+                return {...state,
+                shoppingCart: state.shoppingCart.map((product)=> JSON.stringify(product.order) === JSON.stringify(payload.order.order) ? { 
+                    ...product,
+                    quantity: product.quantity - 1
+                }
+                : product
+                )};
+
+            } else {
+                let orders = state.shoppingCart.filter(product => JSON.stringify(payload.order.order) !== JSON.stringify(product.order))
+                return {...state, 
+                shoppingCart: [...orders]
+                }
+            }    
+            
+            
         default:
             return state;
     }
