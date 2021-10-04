@@ -24,3 +24,7 @@ export const getProductAttributes = (state) => {
 //     const allProducts = state.products;
 //     return allProducts.filter((product) => )
 // }
+export const getProductsPrices = (state) => {
+    const pricesData = state.products;
+    return pricesData
+}

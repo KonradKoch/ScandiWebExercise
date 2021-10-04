@@ -2,7 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { getCartData } from "../redux/selectors/CartSelectors";
 import { currCurrencySymbol, currencyPick } from "../redux/selectors/CurrenciesSelector";
-import { getProductAttributes, getProductDetailsData } from "../redux/selectors/ProductsSelector";
+import { getProductAttributes, getProductDetailsData, getProductsPrices } from "../redux/selectors/ProductsSelector";
 import CartItem from "./CartItem";
 import styled from "styled-components";
 import { addToCart, removeFromCart } from "../redux/actions/actions";
@@ -29,7 +29,7 @@ class Cart extends Component {
                 <p>CART</p>
         {(this.props.cartInfo.length > 0)? this.props.cartInfo.map((product) => {
             return (
-                <CartItem removeFromCart={removeFromCart} addToCart={addToCart} attributes={product}/>
+                <CartItem currentCurrency={currencyPick} products={getProductsPrices} currencySymbol={currCurrencySymbol} removeFromCart={removeFromCart} addToCart={addToCart} attributes={product}/>
                 
                 )
                 
