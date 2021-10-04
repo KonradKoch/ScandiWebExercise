@@ -129,9 +129,7 @@ class ProductCard extends Component {
         this.state = {
             name: this.props.getSelectedProduct,
             avaibleAttValues: {},
-            price: "",
             imgs: this.props.products.map(product => product.gallery),
-            
             shoppingDisabled: true
         }
         
@@ -190,7 +188,7 @@ class ProductCard extends Component {
             
         
        
-        if(Number(objectAsArray(this.state).length)-5 === Number(AttributesNumber)) {
+        if(Number(objectAsArray(this.state).length)-4 === Number(AttributesNumber)) {
             
             
             this.setState({
@@ -235,20 +233,8 @@ class ProductCard extends Component {
     }
 
     handleAddToCart = async () => {
-        let productPrice = document.getElementsByName("price")[0].attributes[0].nodeValue
-        await this.setState({
-            ...this.state,
-            price: productPrice,
-          
-        })
-        
-     
        let {shoppingDisabled, ...data} = this.state;
-        this.props.addToCart(data)
-      
-    
-       
-        
+        this.props.addToCart(data) 
     }
     
    

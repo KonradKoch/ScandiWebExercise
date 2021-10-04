@@ -167,13 +167,6 @@ class CartItem extends Component {
               >
                 <p>{this.props.attributes.order.name}</p>
                 <p>
-                  {this.props.attributes.order.price.slice(0, 1) +
-                    (
-                      Number(this.props.attributes.order.price.slice(1)) *
-                      Number(this.props.attributes.quantity)
-                    ).toFixed(2)}
-                </p>
-                <p>
                   {this.props.products
                     .filter(
                       (product) =>
@@ -252,7 +245,7 @@ class CartItem extends Component {
             </div>
             {this.state.avaibleAttValues.map((value, i) => {
               let key = this.state.availbleAttKeys;
-              let values = Object.entries(this.props.attributes.order).slice(4);
+              let values = Object.entries(this.props.attributes.order).slice(3);
               return (
                 <>
                   <AttributeName>{key[i].toUpperCase()} :</AttributeName>

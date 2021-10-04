@@ -15,6 +15,7 @@ display: flex;
 flex-direction: column;
 justify-content: flex-end;
 align-items: center;
+z-index: 998;
 padding: 16px;
 flex: none;
 order: 0;
