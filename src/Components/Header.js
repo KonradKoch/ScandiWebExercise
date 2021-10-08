@@ -151,6 +151,21 @@ const DropDownMiniCart = styled("ul")`
   }
 `;
 
+const ToCartButton = styled.button `
+background-color: #ffffff;
+margin: 0 0.4rem 0 0;
+width: 46%;
+height: 2.5rem;
+`
+
+const ToCheckOutButton = styled.button `
+margin: 0 0 0 0.4rem;
+background-color: #5ECE7B;
+color: white;
+width: 46%;
+height: 2.5rem;
+`
+
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -206,11 +221,16 @@ class Header extends Component {
 
   pickCategory(e) {
     const value = e.target.getAttribute("value");
+    let overlay = document.getElementById("overlay");
     this.setState({
       ...this.state,
       pickedCategory: value,
+      miniCartIsOpen: false,
     });
-    this.props.pickCategory(value); // zmiana w store przez selector
+    this.props.pickCategory(value);
+    overlay.style.display = "none";
+    document.body.style.overflow = "auto";
+     // zmiana w store przez selector
   }
 
   togglingCurrencyMenu() {
@@ -328,7 +348,10 @@ class Header extends Component {
               }}
             >
               <MiniCart />
+              {this.props.cartInfo.length == 1 && this.state.miniCartIsOpen? <div style={{position: 'flex', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '20rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
             </DropDownMiniCart>
+            
+            {this.props.cartInfo.length > 1 && this.state.miniCartIsOpen? <div style={{position: 'fixed', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '35.5rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
           </BasketContainer>
         </HeaderDiv>
       </MainHeaderDiv>

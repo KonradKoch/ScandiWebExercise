@@ -6,7 +6,7 @@ import { categoryPick } from "../redux/selectors/CategorySelector";
 import { currCurrencySymbol, currencyPick, currentPrice } from "../redux/selectors/CurrenciesSelector";
 import { getProductsSelector } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { getCartData } from "../redux/selectors/CartSelectors";
 
 
@@ -143,11 +143,14 @@ class Products extends Component {
        <CurrentCategory>{this.props.pickedCategory}</CurrentCategory>
        <ProductList>
             {this.props.products.map((product, i)=> {
-                
+                let avaibility = Boolean(product.inStock)
                 return (
+                    <>
+                    
                     <NavLink className="ProductCard-Nav" onClick={(details)=>this.handleProductCard(details)} value={product.name} to={`/${product.category}/${product.name}/0`}>
+                    {avaibility == false? <Link to={`/${product.category}/`}><div style={{position: 'absolute', lineHeight:'20rem', textAlign: 'center', color: 'black', backgroundColor: 'rgba(255, 255, 255)', opacity: '0.5', height: '25em', width: "22em", zIndex: '998'}}>OUT OF STOCK</div></Link> : ""}
                     <ProductCard value={product.name}>
-                
+                    
                 <img value={product.name} style={{width:'304px', height: '280px'}} key={i} src={product.gallery[0]} alt="This photo is currently unavaible."/>
                 <ProductNameLabel value={product.name} key={i}>{product.name}</ProductNameLabel>
                     {product.prices.filter(price => 
@@ -155,6 +158,7 @@ class Products extends Component {
                          <PriceLabel value={product.name}>{this.props.currencySymbol + price.amount.toFixed(2)}</PriceLabel>)}
                     </ProductCard>
                     </NavLink>
+                    </>
                 )
             })}
             </ProductList>
