@@ -30,7 +30,7 @@ class App extends Component {
       <ApolloProvider client={client}>
         <>
         
-        <Header pickCategory={pickCategory} client={client}/>
+        <Header pickCategory={pickCategory} getCartData={getCartData} client={client}/>
         <Route exact path="/"/>
         <Redirect to="/clothes/"/>
         <Route exact path="/:category/">  

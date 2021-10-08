@@ -11,7 +11,7 @@ const CartMain = styled.div`
     padding: 5em 0 0 3%;
     display: flex;
     flex-wrap: wrap;
-    grid-gap: 10px;
+    grid-gap: 20px;
     flex-direction: column;
     `
 
@@ -29,8 +29,9 @@ class Cart extends Component {
                 <p>CART</p>
         {(this.props.cartInfo.length > 0)? this.props.cartInfo.map((product) => {
             return (
-                <CartItem currentCurrency={currencyPick} products={getProductsPrices} currencySymbol={currCurrencySymbol} removeFromCart={removeFromCart} addToCart={addToCart} attributes={product}/>
                 
+                <CartItem currentCurrency={currencyPick} products={getProductsPrices} currencySymbol={currCurrencySymbol} removeFromCart={removeFromCart} addToCart={addToCart} attributes={product}/>
+               
                 )
                 
         }): "There are no products in your basket."}

@@ -15,7 +15,7 @@ const MainProductCard = styled.div
     display: flex;
     flex-wrap: wrap;
     grid-gap: 10px;
-    margin-bottom: 10rem;  
+    margin-bottom: 1rem;  
       
       
     `
@@ -107,12 +107,9 @@ justify-content: center;
 align-items: center;
 padding: 16px 32px;
 align-self: center;
-
 width: 11em;
 height: 52px;
-left: 929px;
-top: 478px;
-
+position: absolute;
 background: lighgrey;
 font-family: Raleway;
 font-style: normal;
@@ -257,6 +254,7 @@ class ProductCard extends Component {
                          <NavLink activeClassName="active-photo" to={`${i}`}><ImgMiniature src={img}/></NavLink>)}
                 </ImagesContainer>
                 <MainImage src={product.gallery[this.props.product]}/>
+                <div style={{position: 'absolute', left: "10em", top: '30em', margin: '1em'}}><AddToCartButton type="button" id="add-to-cart" onClick={this.handleAddToCart} disabled={this.state.shoppingDisabled} name="add-to-cart">ADD TO CART</AddToCartButton></div>
             </PhotoSection>
             
             <ProductAttributesContainer>
@@ -278,7 +276,7 @@ class ProductCard extends Component {
                         price.currency === this.props.currentCurrency).map((price) =>
                          <PriceLabel2 value={product.prices.filter(prices => prices.currency === 'USD').map((price)=> '$' + price.amount)} name="price">{this.props.currencySymbol + price.amount.toFixed(2)}</PriceLabel2>)}
            <div dangerouslySetInnerHTML={{__html: `${product.description}`}} />
-           <div style={{position: 'absolute', left: "30%"}}><AddToCartButton type="button" onClick={this.handleAddToCart} disabled={this.state.shoppingDisabled} name="add-to-cart">ADD TO CART</AddToCartButton></div>
+           
             </ProductAttributesContainer>
            </>
            )}

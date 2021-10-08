@@ -12,11 +12,14 @@ import MiniCartItem from "./MiniCartItem";
 
 
 const CartMain = styled.div`
-    padding: 0 0 0 3%;
-    display: flex;
+    padding: 1em 0 3em 3%;
+    position: relative;
+    z-index: 995;
+    display: block;
     flex-wrap: wrap;
-    grid-gap: 10px;
+    grid-gap: 1em;
     flex-direction: column;
+    overflow-y: auto;
     
     `
 
@@ -31,7 +34,7 @@ class MiniCart extends Component {
     render() {
         return (
             <CartMain>
-                <p>CART</p>
+                {this.props.cartInfo.length === 0? "" : (<div style={{display: "flex", flexDirection:"row"}}><p style={{width: "20%", fontWeight:"800"}}>My bag,</p> <p style={{width: "80%", fontWeight: "300"}}>{this.props.cartInfo.length} {this.props.cartInfo.length > 1? "items" : "item"}</p></div>)}
         {(this.props.cartInfo.length > 0)? this.props.cartInfo.map((product) => {
             return (
                 <MiniCartItem currentCurrency={currencyPick} products={getProductsPrices} currencySymbol={currCurrencySymbol} removeFromCart={removeFromCart} addToCart={addToCart} attributes={product}/>

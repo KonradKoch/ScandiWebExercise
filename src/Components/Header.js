@@ -16,12 +16,14 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import MiniCart from "./MiniCart";
+import { getCartData } from "../redux/selectors/CartSelectors";
 
 const MainHeaderDiv = styled.div`
   height: 4em;
   position: fixed;
   background-color: white;
   width: 100%;
+  z-index: 999;
 `;
 
 const HeaderDiv = styled.div`
@@ -79,7 +81,8 @@ const DropDownList = styled("ul")`
   width: 5.5em;
   position: center;
   padding: 0;
-  margin: 0;
+  margin: 0.7em;
+
   background: #ffffff;
   filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
   font-weight: 900;
@@ -120,20 +123,26 @@ const DropDownMiniCartHeader = styled("div")`
   content-align: center;
   justify-content: space-around;
   font-weight: 700;
+  z-index: 999;
+  position: absolute;
   padding: 0;
 `;
 const DropDownMiniCart = styled("ul")`
   cursor: auto;
-  z-index: 999;
+  z-index: 997;
+  overflow-y: auto;
   position: absolute;
   padding: 0;
   top: 2.9rem;
+  max-height: 35rem;
+  width: 20rem;
   background: #ffffff;
+
   filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
   font-weight: 900;
   justify-content: "center";
-  position: flex;
-  margin: 0 0 0 -14rem;
+
+  margin: 0 0 0 -18.25rem;
   &:first-child {
     padding-top: 0.8em;
   }
@@ -218,7 +227,14 @@ class Header extends Component {
       ...this.state,
       miniCartIsOpen: !isOpen,
     });
-    isOpen === true? overlay.style.display = "none": overlay.style.display = "flex"
+    if (!isOpen) {
+      overlay.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    } else {
+      overlay.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+    // isOpen === true? overlay.style.display = "none" : overlay.style.display = "flex"
   }
 
   changeCurrency(e) {
@@ -238,16 +254,12 @@ class Header extends Component {
     this.getAllCategories();
   }
 
-  componentDidUpdate() {
-    // this.handleCategoryClick();
-    console.log(this.props.currencySymbol);
-    console.log(this.props.pickedCategory); // console log z reduxa
-  }
+  componentDidUpdate() {}
 
   render() {
     return (
       <MainHeaderDiv>
-          <div id="overlay"/>
+        <div id="overlay" />
         <HeaderDiv>
           <NavCategoryDiv>
             {this.state.categories.map((category, i) => {
@@ -255,7 +267,7 @@ class Header extends Component {
                 <NavLink
                   id="navbar-category-menu"
                   activeClassName="active"
-                  key={i}
+                  key={category + i}
                   to={`/${category}/`}
                   value={category}
                   onClick={(e) => this.pickCategory(e)}
@@ -277,7 +289,9 @@ class Header extends Component {
           <DropDownContainer>
             <DropDownHeader onClick={() => this.togglingCurrencyMenu()}>
               {this.props.currencySymbol || "$"}{" "}
-              <VectorLabel>{this.state.currenciesMenuIsOpen ? vector1 : vector0}</VectorLabel>
+              <VectorLabel>
+                {this.state.currenciesMenuIsOpen ? vector1 : vector0}
+              </VectorLabel>
             </DropDownHeader>
             <DropDownListContainer>
               <DropDownList
@@ -304,13 +318,17 @@ class Header extends Component {
             </DropDownListContainer>
           </DropDownContainer>
           <BasketContainer>
-            <DropDownMiniCartHeader onClick={() => this.togglingMiniCartMenu()}>{shopping}</DropDownMiniCartHeader>
-            
+            <DropDownMiniCartHeader onClick={() => this.togglingMiniCartMenu()}>
+              {shopping}
+            </DropDownMiniCartHeader>
+                  {this.props.cartInfo.length > 0? <label onClick={() => this.togglingMiniCartMenu()} style={{backgroundColor:'black', color:'white', cursor: 'pointer', borderRadius: 1000, fontWeight: '900', width:'20px', height:'20px', position:'absolute', fontSize:'14px', textAlign: 'center', left: '0.8rem', bottom: '1rem', zIndex: '999'}}>{this.props.cartInfo.length}</label> : ""}
             <DropDownMiniCart
-                style={{
-                  display: !this.state.miniCartIsOpen ? "none" : "",
-                }}
-              ><MiniCart /></DropDownMiniCart>
+              style={{
+                display: !this.state.miniCartIsOpen ? "none" : "",
+              }}
+            >
+              <MiniCart />
+            </DropDownMiniCart>
           </BasketContainer>
         </HeaderDiv>
       </MainHeaderDiv>
@@ -323,6 +341,7 @@ function mapStateToProps(state) {
     pickedCategory: categoryPick(state),
     currentCurrency: currencyPick(state),
     currencySymbol: currCurrencySymbol(state),
+    cartInfo: getCartData(state),
   };
 }
 
@@ -331,6 +350,7 @@ function mapDispatchToProps(dispatch) {
     pickCategory: (e) => dispatch(pickCategory(e)),
     getCurrency: (e) => dispatch(getCurrency(e)),
     getCurrencySymbol: (e) => dispatch(getCurrencySymbol(e)),
+    
   };
 }
 

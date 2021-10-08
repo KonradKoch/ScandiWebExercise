@@ -21,6 +21,7 @@ import { getProductsPrices } from "../redux/selectors/ProductsSelector";
 const CartItemMain = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin: 1em 0 1em 0;
 `;
 
 const CartItemData = styled.div`
