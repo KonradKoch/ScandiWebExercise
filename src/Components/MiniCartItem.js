@@ -236,14 +236,15 @@ class MiniCartItem extends Component {
               </div>
             </div>
             {this.state.avaibleAttValues.map((value, i) => {
-              let key = this.state.availbleAttKeys;
-              let values = Object.entries(this.props.attributes.order).slice(3);
+              const key = this.state.availbleAttKeys;
+              const values = Object.entries(this.props.attributes.order).slice(3);
               return (
                 <>
                   <AttributeName>{key[i].toUpperCase()} :</AttributeName>
                   <AttributeValue>
-                    {value.map((item) => {
-                      return values[i].includes(item) ? (
+                    {!this.state.avaibleAttValues? value.map((item) => {
+                      const AttValues = values[i].includes(item);
+                      return AttValues ? (
                         <AttributeValue3 name="att-values" value={item}>
                           {item}
                         </AttributeValue3>
@@ -252,7 +253,7 @@ class MiniCartItem extends Component {
                           {item}
                         </AttributeValue2>
                       );
-                    })}
+                    }): ""}
                   </AttributeValue>
                 </>
               );
