@@ -1,3 +1,4 @@
+import  PropTypes from "prop-types";
 import { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -11,7 +12,8 @@ import {
   vectordecmini,
   vectortrashmini,
 } from "../assets/Vector";
-import { addToCart, removeFromCart } from "../redux/actions/actions";
+import { addToCart, removeFromCart, getPriceInTotal } from "../redux/actions/actions";
+import { priceInTotal } from "../redux/selectors/CartSelectors";
 import {
   currCurrencySymbol,
   currencyPick,
@@ -98,7 +100,7 @@ class MiniCartItem extends Component {
     super(props);
     this.state = {
       avaibleAttValues: Object.values(
-        this.props.attributes.order.avaibleAttValues
+        this.props.attributes.order.avaibleAttValues //. to może być kwestia tej metody
       ),
       availbleAttKeys: Object.keys(
         this.props.attributes.order.avaibleAttValues
@@ -134,12 +136,11 @@ class MiniCartItem extends Component {
       });
     }
   };
-  increaseAmount = () => {
-    return this.props.addToCart(this.props.attributes.order);
-  };
-  decreaseAmount = () => {
-    return this.props.removeFromCart(this.props.attributes);
-  };
+  
+
+ 
+
+  
 
   prevPhoto = () => {
     if (this.state.counter) {
@@ -154,10 +155,50 @@ class MiniCartItem extends Component {
       });
     }
   };
-  componentDidMount() {
+  getTotalPrice = () => {
+    const prices = document.getElementsByName('price')
+    const pricesValues = [];
+    prices.forEach((price) => {
+      let priceValue = parseFloat(price.getAttribute('value'));
+      pricesValues.push(priceValue)
+      
+    });
+    if(pricesValues.length !== 0) {
+    let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
+    this.props.getPriceInTotal(price)
+    }
   }
 
+  increaseAmount = () => {
+    return this.props.addToCart(this.props.attributes.order);
+   };
+
+  decreaseAmount = async () => {
+    await this.props.removeFromCart(this.props.attributes);
+    if(this.props.attributes.quantity !== 1) {
+    return this.getTotalPrice();
+    } else {
+      return this.props.getPriceInTotal("0")
+    }
+  };
+   
+
+  componentDidUpdate(){
+    this.getTotalPrice();
+  }
+
+  componentDidMount() {
+    this.getTotalPrice();
+  }
+
+
   render() {
+    let avaibleAttValues = Object.values(
+      this.props.attributes.order.avaibleAttValues //. to może być kwestia tej metody
+    )
+    
+    
+    
     return (
       <CartItemMain>
         <CartItemData>
@@ -185,7 +226,7 @@ class MiniCartItem extends Component {
                             price.currency === this.props.currentCurrency
                         )
                         .map((price) => (
-                          <PriceLabel2 name="price">
+                          <PriceLabel2 name="price" value={price.amount * (this.props.attributes.quantity).toFixed(2)}>
                             {this.props.currencySymbol +
                               (
                                 price.amount *
@@ -230,19 +271,21 @@ class MiniCartItem extends Component {
                 
                 <img
                   style={{ width: "7.5rem", display: "flex" }}
-                  src={this.state.imgs[0][this.state.counter]}
+                  src={this.props.attributes.order.imgs[0][this.state.counter]}
                 />
                 
               </div>
             </div>
-            {this.state.avaibleAttValues.map((value, i) => {
-              const key = this.state.availbleAttKeys;
+            {avaibleAttValues.map((value, i) => {
+              const key = Object.keys(
+                this.props.attributes.order.avaibleAttValues
+              );
               const values = Object.entries(this.props.attributes.order).slice(3);
               return (
                 <>
                   <AttributeName>{key[i].toUpperCase()} :</AttributeName>
                   <AttributeValue>
-                    {!this.state.avaibleAttValues? value.map((item) => {
+                    {value.map((item) => {
                       const AttValues = values[i].includes(item);
                       return AttValues ? (
                         <AttributeValue3 name="att-values" value={item}>
@@ -253,7 +296,7 @@ class MiniCartItem extends Component {
                           {item}
                         </AttributeValue2>
                       );
-                    }): ""}
+                    })}
                   </AttributeValue>
                 </>
               );
@@ -265,10 +308,14 @@ class MiniCartItem extends Component {
   }
 }
 
+
+
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (order) => dispatch(addToCart(order)),
     removeFromCart: (order) => dispatch(removeFromCart(order)),
+    getPriceInTotal: (price) => dispatch(getPriceInTotal(price)),
   };
 };
 
@@ -277,6 +324,7 @@ const mapStateToProps = (state) => {
     currentCurrency: currencyPick(state),
     currencySymbol: currCurrencySymbol(state),
     products: getProductsPrices(state),
+    totalPrice: priceInTotal(state)
   };
 };
 

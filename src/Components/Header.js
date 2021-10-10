@@ -16,7 +16,7 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import Cart from "./Cart";
 import MiniCart from "./MiniCart";
-import { getCartData } from "../redux/selectors/CartSelectors";
+import { getCartData, priceInTotal } from "../redux/selectors/CartSelectors";
 
 const MainHeaderDiv = styled.div`
   height: 4em;
@@ -38,6 +38,7 @@ const HeaderDiv = styled.div`
 
 const NavCategoryDiv = styled.div`
   display: flex;
+  z-index: 999;
   flex-direction: row;
   padding: 1em 0 0 0;
 `;
@@ -175,8 +176,11 @@ class Header extends Component {
       currenciesMenuIsOpen: false,
       miniCartIsOpen: false,
       symbols: ["$", "£", "$", "¥", "₽"],
+      totalPrice: 0
     };
+    this.getCartTotalPrice = this.getCartTotalPrice.bind(this)
   }
+  
 
   getAllCategories() {
     this.props.client
@@ -209,7 +213,20 @@ class Header extends Component {
         });
       });
   }
-
+  
+  getCartTotalPrice() {
+    let prices = document.getElementsByName('price')
+    let pricesValues = [];
+    prices.forEach((price) => {
+      let priceValue = parseFloat(price.getAttribute('value'));
+      pricesValues.push(priceValue)
+    });
+ 
+    
+    this.setState({...this.state, totalPrice: pricesValues.reduce((prev, curr) => prev + curr)});
+    
+    
+  }
   // handleCategoryClick() {
   //     const clickedButton = document.getElementById(`${this.state.pickedCategory}`);
   //     if (clickedButton && clickedButton.getAttribute('value') === this.state.pickedCategory){
@@ -254,6 +271,7 @@ class Header extends Component {
       overlay.style.display = "none";
       document.body.style.overflow = "auto";
     }
+    
     // isOpen === true? overlay.style.display = "none" : overlay.style.display = "flex"
   }
 
@@ -272,11 +290,15 @@ class Header extends Component {
 
   componentDidMount() {
     this.getAllCategories();
+    
   }
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    
+  }
 
   render() {
+   
     return (
       <MainHeaderDiv>
         <div id="overlay" />
@@ -348,10 +370,10 @@ class Header extends Component {
               }}
             >
               <MiniCart />
-              {this.props.cartInfo.length == 1 && this.state.miniCartIsOpen? <div style={{position: 'flex', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '20rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
+              {this.props.cartInfo.length == 1 && this.state.miniCartIsOpen? <div style={{position: 'flex', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '20rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><div><label>Total:</label><label>{this.props.currencySymbol + this.props.totalPrice}</label></div><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
             </DropDownMiniCart>
             
-            {this.props.cartInfo.length > 1 && this.state.miniCartIsOpen? <div style={{position: 'fixed', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '35.5rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
+            {this.props.cartInfo.length > 1 && this.state.miniCartIsOpen? <div style={{position: 'fixed', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '35.5rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><div><label>Total:</label><label>{this.props.currencySymbol + this.props.totalPrice}</label></div><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
           </BasketContainer>
         </HeaderDiv>
       </MainHeaderDiv>
@@ -365,6 +387,7 @@ function mapStateToProps(state) {
     currentCurrency: currencyPick(state),
     currencySymbol: currCurrencySymbol(state),
     cartInfo: getCartData(state),
+    totalPrice: priceInTotal(state)
   };
 }
 

@@ -6,7 +6,7 @@ export const GET_CURRENCY = "getCurrency";
 export const GET_CURRENCY_SYMBOL ="getCurrencySymbol";
 export const ADD_TO_CART= "addToCart";
 export const REMOVE_FROM_CART = "removeFromCart";
-
+export const GET_PRICE_IN_TOTAL = "getPriceInTotal";
 
 export const pickCategory = (value) => ({
     type: PICK_CATEGORY,
@@ -62,5 +62,12 @@ export const getCurrencySymbol = (symbol) => ({
     type: GET_CURRENCY_SYMBOL,
     payload: {
         currencySymbol: symbol
+    }
+})
+
+export const getPriceInTotal = (price) => ({
+    type: GET_PRICE_IN_TOTAL,
+    payload: {
+        priceInTotal: price
     }
 })

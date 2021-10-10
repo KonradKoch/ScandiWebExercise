@@ -8,7 +8,7 @@ import {
   vectorinc,
   vectortrash,
 } from "../assets/Vector";
-import { addToCart, removeFromCart } from "../redux/actions/actions";
+import { addToCart, getPriceInTotal, removeFromCart } from "../redux/actions/actions";
 import {
   currCurrencySymbol,
   currencyPick,
@@ -128,11 +128,31 @@ class CartItem extends Component {
       });
     }
   };
+
+  getTotalPrice = () => {
+    const prices = document.getElementsByName('price')
+    const pricesValues = [];
+    prices.forEach((price) => {
+      let priceValue = parseFloat(price.getAttribute('value'));
+      pricesValues.push(priceValue)
+      
+    });
+    if(pricesValues.length !== 0) {
+    let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
+    this.props.getPriceInTotal(price)
+    }
+  }
+
   increaseAmount = () => {
     return this.props.addToCart(this.props.attributes.order);
   };
-  decreaseAmount = () => {
-    return this.props.removeFromCart(this.props.attributes);
+  decreaseAmount = async () => {
+    await this.props.removeFromCart(this.props.attributes);
+    if(this.props.attributes.quantity !== 1) {
+    return this.getTotalPrice();
+    } else {
+     return this.props.getPriceInTotal("0")
+    }
   };
 
   prevPhoto = () => {
@@ -148,7 +168,12 @@ class CartItem extends Component {
       });
     }
   };
+  componentDidUpdate() {
+    this.getTotalPrice();
+  }
+
   componentDidMount() {
+    this.getTotalPrice();
   }
 
   render() {
@@ -276,6 +301,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (order) => dispatch(addToCart(order)),
     removeFromCart: (order) => dispatch(removeFromCart(order)),
+    getPriceInTotal: (price) => dispatch(getPriceInTotal(price))
   };
 };
 

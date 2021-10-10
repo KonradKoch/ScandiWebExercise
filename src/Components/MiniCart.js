@@ -1,4 +1,4 @@
-import { addToCart, removeFromCart } from "../redux/actions/actions";
+import { addToCart, getPriceInTotal, removeFromCart } from "../redux/actions/actions";
 
 import { getProductsPrices } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
@@ -13,7 +13,7 @@ import {
 import MiniCartItem from "./MiniCartItem";
 
 const CartMain = styled.div`
-  padding: 1em 0 3em 3%;
+  padding: 1em 0 5em 3%;
   position: relative;
   z-index: 995;
   display: block;
@@ -49,6 +49,7 @@ class MiniCart extends Component {
                   currencySymbol={currCurrencySymbol}
                   removeFromCart={removeFromCart}
                   addToCart={addToCart}
+                  getPriceInTotal={getPriceInTotal}
                   attributes={product}
                 />
                 

@@ -7,6 +7,7 @@ const initialState = {
     currentCurrency: "USD",
     currencySymbol: "$",
     selectedProduct: "",
+    priceInTotal: "",
     shoppingCart: []
 }
 
@@ -56,7 +57,7 @@ export const reducer = (state = initialState, {type, payload}) => {
             }
         case actions.REMOVE_FROM_CART:
             const item2 = state.shoppingCart.find(product => JSON.stringify(product.order) === JSON.stringify(payload.order.order));
-            const index = state.shoppingCart.findIndex(item => item.order === payload.order.order)
+            
         
             if(item2.quantity > 1) {
                 return {...state,
@@ -70,10 +71,13 @@ export const reducer = (state = initialState, {type, payload}) => {
             } else {
                 let orders = state.shoppingCart.filter(product => JSON.stringify(payload.order.order) !== JSON.stringify(product.order))
                 return {...state, 
-                shoppingCart: [...orders]
+                shoppingCart: orders
                 }
             }    
-            
+        case actions.GET_PRICE_IN_TOTAL:
+            return {...state,
+                    priceInTotal: payload.priceInTotal
+            }
             
         default:
             return state;
