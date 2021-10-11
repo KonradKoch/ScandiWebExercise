@@ -5,6 +5,8 @@ export const getCartData = (state) => {
 }
 
 export const priceInTotal = (state) => {
+    const priceInTotal = state.priceInTotal;
+    
     return state.priceInTotal;
 }
 

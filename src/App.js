@@ -12,6 +12,8 @@ import Products from "./Components/Products";
 import ProductCard from "./Components/ProductCard";
 import Cart from "./Components/Cart";
 import { getCartData } from "./redux/selectors/CartSelectors";
+
+
 // const store = createStore( null, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 const client = new ApolloClient({
   uri: "http://localhost:4000/"
@@ -28,6 +30,7 @@ class App extends Component {
     return (
       <Router>
       <ApolloProvider client={client}>
+        
         <>
         
         <Header pickCategory={pickCategory} getCartData={getCartData} client={client}/>

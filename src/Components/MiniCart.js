@@ -58,7 +58,7 @@ class MiniCart extends Component {
               
             }) 
             
-          : "There are no products in your basket."} 
+          : <><p style={{position: "absolute"}}>There are no products in your basket</p></>} 
           
       </CartMain>
     );

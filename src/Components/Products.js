@@ -8,6 +8,9 @@ import { getProductsSelector } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 import { getCartData } from "../redux/selectors/CartSelectors";
+import { vectortoshopping } from "../assets/VectorToShopping";
+
+
 
 
 const ProductCard = styled.div `
@@ -23,7 +26,10 @@ flex-grow: 0;
 margin: 0px 0px;
 &:hover {
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19)
-}    
+}&:hover .product-list-shopping-button {
+    display: block;
+    
+  }    
 `
 
 const CurrentCategory = styled.div `
@@ -68,8 +74,8 @@ class Products extends Component {
         super(props);
         this.state = {
             products: [],
-            firstIMGS: [],
-            names: []
+            // firstIMGS: [],
+            // names: []
         }
     }
 
@@ -114,6 +120,7 @@ class Products extends Component {
         this.props.getProductDetails(value)
     }
 
+    
     // getListData () {
     //     let frontIMGS = [];
     //     let p_names = [];
@@ -143,22 +150,23 @@ class Products extends Component {
        <CurrentCategory>{this.props.pickedCategory}</CurrentCategory>
        <ProductList>
             {this.props.products.map((product, i)=> {
-                let avaibility = Boolean(product.inStock)
+                let avability = Boolean(product.inStock)
                 return (
                     <>
                     
                     <NavLink className="ProductCard-Nav" onClick={(details)=>this.handleProductCard(details)} value={product.name} to={`/${product.category}/${product.name}/0`}>
-                    {avaibility == false? <Link to={`/${product.category}/`}><div style={{position: 'absolute', lineHeight:'20rem', textAlign: 'center', color: 'black', backgroundColor: 'rgba(255, 255, 255)', opacity: '0.5', height: '25em', width: "22em", zIndex: '998'}}>OUT OF STOCK</div></Link> : ""}
+                    {avability == false? <Link to={`/${product.category}/${product.name}/0`}><div value={product.name} style={{position: 'absolute', lineHeight:'20rem', textAlign: 'center', color: 'black', backgroundColor: 'rgba(255, 255, 255)', opacity: '0.5', width:'340px', height: '325px', zIndex: '998', cursor: 'default'}}>OUT OF STOCK</div></Link> : ""}
                     <ProductCard value={product.name}>
                     
                 <img value={product.name} style={{width:'304px', height: '280px'}} key={i} src={product.gallery[0]} alt="This photo is currently unavaible."/>
+                <div><img value={product.name} onClick={(details)=>this.handleProductCard(details)} className="product-list-shopping-button" src={require("../assets/Common.svg").default}/></div>
                 <ProductNameLabel value={product.name} key={i}>{product.name}</ProductNameLabel>
                     {product.prices.filter(price => 
                         price.currency === this.props.currentCurrency).map((price) =>
                          <PriceLabel value={product.name}>{this.props.currencySymbol + price.amount.toFixed(2)}</PriceLabel>)}
                     </ProductCard>
                     </NavLink>
-                    </>
+                    </> 
                 )
             })}
             </ProductList>

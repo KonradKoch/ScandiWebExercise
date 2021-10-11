@@ -9,6 +9,8 @@ body {
 }
 
 #overlay {
+  min-width: 360px;
+  width: auto;
   position: fixed;
   top: 4rem;
   display: none;
@@ -43,3 +45,9 @@ body {
   color:#1D1F22;
 }
 
+.product-list-shopping-button {
+  display: none;
+  position: absolute;
+  z-index: 998;
+  margin: -1.75rem 0 0 5rem
+}

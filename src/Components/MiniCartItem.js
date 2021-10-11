@@ -155,6 +155,7 @@ class MiniCartItem extends Component {
       });
     }
   };
+
   getTotalPrice = () => {
     const prices = document.getElementsByName('price')
     const pricesValues = [];
@@ -194,7 +195,7 @@ class MiniCartItem extends Component {
 
   render() {
     let avaibleAttValues = Object.values(
-      this.props.attributes.order.avaibleAttValues //. to może być kwestia tej metody
+      this.props.attributes.order.avaibleAttValues 
     )
     
     

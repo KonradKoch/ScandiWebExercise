@@ -301,7 +301,7 @@ class Header extends Component {
    
     return (
       <MainHeaderDiv>
-        <div id="overlay" />
+        <div id="overlay" onClick={() => this.togglingMiniCartMenu()}/>
         <HeaderDiv>
           <NavCategoryDiv>
             {this.state.categories.map((category, i) => {
@@ -373,7 +373,7 @@ class Header extends Component {
               {this.props.cartInfo.length == 1 && this.state.miniCartIsOpen? <div style={{position: 'flex', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '20rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><div><label>Total:</label><label>{this.props.currencySymbol + this.props.totalPrice}</label></div><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
             </DropDownMiniCart>
             
-            {this.props.cartInfo.length > 1 && this.state.miniCartIsOpen? <div style={{position: 'fixed', padding:'0.5rem 0.5rem 0.5rem 0.5rem', right: '2.5rem', top: '35.5rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><div><label>Total:</label><label>{this.props.currencySymbol + this.props.totalPrice}</label></div><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
+            {this.props.cartInfo.length > 1 && this.state.miniCartIsOpen? <div style={{position: 'fixed', padding:'0.5rem 0.5rem 0.5rem 0.7rem', right: '2.5rem', top: '33.5rem', zIndex: '999', width: '17.2rem', height: 'auto', backgroundColor: 'white'}}><div style={{height: '2rem'}}><label style={{width: 'auto', margin: '0 9rem 0 0'}}>Total:</label><label style={{width: '3rem'}}>{this.props.currencySymbol + this.props.totalPrice}</label></div><Link to="/shop/cart/"><ToCartButton onClick={() => this.togglingMiniCartMenu()}>VIEW CART</ToCartButton></Link><ToCheckOutButton>CHECK OUT</ToCheckOutButton></div>: ""}
           </BasketContainer>
         </HeaderDiv>
       </MainHeaderDiv>

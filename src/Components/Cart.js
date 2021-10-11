@@ -18,8 +18,22 @@ const CartMain = styled.div`
 
 class Cart extends Component {
 
+
+    getTotalPrice = () => {
+        const prices = document.getElementsByName('price')
+        const pricesValues = [];
+        prices.forEach((price) => {
+          let priceValue = parseFloat(price.getAttribute('value'));
+          pricesValues.push(priceValue)
+          
+        });
+        if(pricesValues.length !== 0) {
+        let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
+        this.props.getPriceInTotal(price)
+        }
+      }
     componentDidMount() {
-        
+        this.getTotalPrice();
         
     }
 
@@ -41,6 +55,11 @@ class Cart extends Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+      getPriceInTotal: (price) => dispatch(getPriceInTotal(price))
+    };
+  };
 
 const mapStateToProps = (state) => {
     return {
@@ -51,4 +70,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, null)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

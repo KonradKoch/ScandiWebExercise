@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { addToCart, getProductDetails } from "../redux/actions/actions";
 import { connect } from "react-redux";
 import { getProductDetailsData, getSelectedProduct } from "../redux/selectors/ProductsSelector";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { currCurrencySymbol, currencyPick } from "../redux/selectors/CurrenciesSelector";
 import { findRenderedDOMComponentWithClass } from "react-dom/test-utils";
 import { getCartData } from "../redux/selectors/CartSelectors";
@@ -245,6 +245,7 @@ class ProductCard extends Component {
        <MainProductCard> 
     
            {this.props.products.map((product) => {
+               let avability = Boolean(product.inStock)
            return (
                
            <>
@@ -254,7 +255,7 @@ class ProductCard extends Component {
                          <NavLink activeClassName="active-photo" to={`${i}`}><ImgMiniature src={img}/></NavLink>)}
                 </ImagesContainer>
                 <MainImage src={product.gallery[this.props.product]}/>
-                <div style={{position: 'absolute', left: "10em", top: '30em', margin: '1em'}}><AddToCartButton type="button" id="add-to-cart" onClick={this.handleAddToCart} disabled={this.state.shoppingDisabled} name="add-to-cart">ADD TO CART</AddToCartButton></div>
+                <div style={{position: 'absolute', left: "10em", top: '30em', margin: '1em'}}>{avability == false? <Link to={`/${product.category}/`}><div style={{position: 'absolute', textAlign: 'center', color: 'black', backgroundColor: 'rgba(255, 255, 255)', lineHeight: '3.25rem', width:'11rem', height: '3.25rem', zIndex: '998', cursor: 'pointer'}}>OUT OF STOCK</div></Link> : ""}<AddToCartButton type="button" id="add-to-cart" onClick={this.handleAddToCart} disabled={this.state.shoppingDisabled} name="add-to-cart">ADD TO CART</AddToCartButton></div>
             </PhotoSection>
             
             <ProductAttributesContainer>
