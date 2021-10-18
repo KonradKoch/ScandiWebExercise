@@ -1,198 +1,246 @@
 import gql from "graphql-tag";
 import { Component } from "react";
 import { connect } from "react-redux";
-import { getPricesData, getProductDetails, getProducts } from "../redux/actions/actions";
+import {
+
+  getProductDetails,
+  getProducts,
+} from "../redux/actions/actions";
 import { categoryPick } from "../redux/selectors/CategorySelector";
-import { currCurrencySymbol, currencyPick, currentPrice } from "../redux/selectors/CurrenciesSelector";
+import {
+  currCurrencySymbol,
+  currencyPick,
+
+} from "../redux/selectors/CurrenciesSelector";
 import { getProductsSelector } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getCartData } from "../redux/selectors/CartSelectors";
-import { vectortoshopping } from "../assets/VectorToShopping";
 
-
-
-
-const ProductCard = styled.div `
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-align-items: center;
-z-index: 998;
-padding: 16px;
-flex: none;
-order: 0;
-flex-grow: 0;
-margin: 0px 0px;
-&:hover {
-    box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19)
-}&:hover .product-list-shopping-button {
+const ProductCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 998;
+  padding: 16px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 0px;
+  &:hover {
+    box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+  }
+  &:hover .product-list-shopping-button {
     display: block;
-    
-  }    
-`
+  }
+`;
 
-const CurrentCategory = styled.div `
-padding: 2em 0 0 0;
-margin: 0 0 0 2em;
-font-size: 42px;
-font-weight: 400;
-font-style: normal;
+const CurrentCategory = styled.div`
+  padding: 2em 0 0 0;
+  margin: 0 0 0 2em;
+  font-size: 42px;
+  font-weight: 400;
+  font-style: normal;
+`;
 
-`
-
-const ProductList = styled.div `
-margin: 3em 0 0 0;
-display: flex;
+const ProductList = styled.div`
+  margin: 3em 0 0 0;
+  display: flex;
   grid-gap: 20px;
   flex-wrap: wrap;
   justify-items: center;
   justify-content: center;
-`
+`;
 
-const ProductNameLabel = styled.label `
-width: 100%;
+const ProductNameLabel = styled.label`
+  width: 100%;
 
-font-style: normal;
-font-weight: 300;
-font-size: 18px;
-line-height: 160%;
-text-align: left;
-padding: 1em 0 0 0;
-`
-const PriceLabel = styled.label `
-width: 100%;
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 160%;
-text-align: left;
-`
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 160%;
+  text-align: left;
+  padding: 1em 0 0 0;
+`;
+const PriceLabel = styled.label`
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%;
+  text-align: left;
+`;
 
 class Products extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            products: [],
-            // firstIMGS: [],
-            // names: []
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+      // firstIMGS: [],
+      // names: []
+    };
+  }
 
-    getAllProducts(){
-        this.props.client.query({
-            query: gql `
-            query {
-                category {
-                  products {
-                    inStock
-                    description
-                    attributes {
-                      name
-                      id
-                      items {
-                        displayValue
-                      }
-                    }
-                    category
-                    name
-                    gallery
-                    prices {
-                      amount
-                      currency
-                    }
+  getAllProducts() {
+    this.props.client
+      .query({
+        query: gql`
+          query {
+            category {
+              products {
+                inStock
+                description
+                attributes {
+                  name
+                  id
+                  items {
+                    displayValue
                   }
                 }
+                category
+                name
+                gallery
+                prices {
+                  amount
+                  currency
+                }
               }
-            `
-        }).then(result=> {
-            let products = result.data.category.products;
-            this.setState({
-                products: products
-            });
-            this.props.getProducts(products);
-            // this.getListData();
+            }
+          }
+        `,
+      })
+      .then((result) => {
+        let products = result.data.category.products;
+        this.setState({
+          products: products,
         });
-    }
+        this.props.getProducts(products);
+        // this.getListData();
+      });
+  }
 
-    handleProductCard(details) {
-        let value = details.target.getAttribute('value');
-        this.props.getProductDetails(value)
-    }
+  handleProductCard(details) {
+    let value = details.target.getAttribute("value");
+    this.props.getProductDetails(value);
+  }
 
-    
-    // getListData () {
-    //     let frontIMGS = [];
-    //     let p_names = [];
-    //     for(let i=0; i<this.state.products.length; i++) {
-    //         frontIMGS.push(this.state.products[i].gallery[0]);
-    //         p_names.push(this.state.products[i].name)
-    //     } 
-    //     this.setState({
-    //         ...this.state,
-    //         firstIMGS: frontIMGS,
-    //         names: p_names
-    //     });
-    // }
+  // getListData () {
+  //     let frontIMGS = [];
+  //     let p_names = [];
+  //     for(let i=0; i<this.state.products.length; i++) {
+  //         frontIMGS.push(this.state.products[i].gallery[0]);
+  //         p_names.push(this.state.products[i].name)
+  //     }
+  //     this.setState({
+  //         ...this.state,
+  //         firstIMGS: frontIMGS,
+  //         names: p_names
+  //     });
+  // }
 
-    componentDidMount() {
-        this.getAllProducts();
-      
-    }
+  componentDidMount() {
+    this.getAllProducts();
+  }
 
-    componentDidUpdate() {
-   
-    }
+  componentDidUpdate() {}
 
-    render() {
-       return (
-           <>
-       <CurrentCategory>{this.props.pickedCategory}</CurrentCategory>
-       <ProductList>
-            {this.props.products.map((product, i)=> {
-                let avability = Boolean(product.inStock)
-                return (
-                    <>
+  render() {
+    return (
+      <div key={Math.random()}>
+        <CurrentCategory key={Math.random()}>{this.props.pickedCategory}</CurrentCategory>
+        <ProductList key={`${Math.random()}`}>
+          {this.props.products.map((product, i) => {
+            let avability = Boolean(product.inStock);
+            return (
+              <div key={Math.random()}>
+                <NavLink
+                  key={`${Math.random()}`}
+                  className="ProductCard-Nav"
+                  onClick={(details) => this.handleProductCard(details)}
+                  value={product.name}
+                  to={`/${product.category}/${product.name}/0`}
+                >
+                  {avability === false ? (
                     
-                    <NavLink className="ProductCard-Nav" onClick={(details)=>this.handleProductCard(details)} value={product.name} to={`/${product.category}/${product.name}/0`}>
-                    {avability == false? <Link to={`/${product.category}/${product.name}/0`}><div value={product.name} style={{position: 'absolute', lineHeight:'20rem', textAlign: 'center', color: 'black', backgroundColor: 'rgba(255, 255, 255)', opacity: '0.5', width:'340px', height: '325px', zIndex: '998', cursor: 'default'}}>OUT OF STOCK</div></Link> : ""}
-                    <ProductCard value={product.name}>
-                    
-                <img value={product.name} style={{width:'304px', height: '280px'}} key={i} src={product.gallery[0]} alt="This photo is currently unavaible."/>
-                <div><img value={product.name} onClick={(details)=>this.handleProductCard(details)} className="product-list-shopping-button" src={require("../assets/Common.svg").default}/></div>
-                <ProductNameLabel value={product.name} key={i}>{product.name}</ProductNameLabel>
-                    {product.prices.filter(price => 
-                        price.currency === this.props.currentCurrency).map((price) =>
-                         <PriceLabel value={product.name}>{this.props.currencySymbol + price.amount.toFixed(2)}</PriceLabel>)}
-                    </ProductCard>
-                    </NavLink>
-                    </> 
-                )
-            })}
-            </ProductList>
-       
-       
-            </>
-       )
-    }
+                      <div
+                        value={product.name}
+                        key={`${Math.random()}`}
+                        style={{
+                          position: "absolute",
+                          lineHeight: "20rem",
+                          textAlign: "center",
+                          color: "black",
+                          backgroundColor: "rgba(255, 255, 255)",
+                          opacity: "0.5",
+                          width: "330px",
+                          height: "320px",
+                          zIndex: "998",
+                          cursor: "default",
+                        }}
+                      >
+                        OUT OF STOCK
+                      </div>
+                  
+                  ) : (
+                    ""
+                  )}
+                  <ProductCard value={product.name} key={`${Math.random()}`}>
+                    <img
+                      key={`${Math.random()}`}
+                      value={product.name}
+                      style={{ width: "304px", height: "280px" }}
+                      src={product.gallery[0]}
+                      alt="Product"
+                    />
+                    <div key={`${Math.random()}`}>
+                      <img
+                        key={`${Math.random()}`}
+                        value={product.name}
+                        onClick={(details) => this.handleProductCard(details)}
+                        className="product-list-shopping-button"
+                        src={require("../assets/Common.svg").default}
+                        alt="BUY"
+                      />
+                    </div>
+                    <ProductNameLabel value={product.name} key={`${Math.random()}`}>
+                      {product.name}
+                    </ProductNameLabel>
+                    {product.prices
+                      .filter(
+                        (price) => price.currency === this.props.currentCurrency
+                      )
+                      .map((price) => (
+                        <PriceLabel value={product.name} key={`${Math.random()}`}>
+                          {this.props.currencySymbol + price.amount.toFixed(2)}
+                        </PriceLabel>
+                      ))}
+                  </ProductCard>
+                </NavLink>
+              </div>
+            );
+          })}
+        </ProductList>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        products: getProductsSelector(state),
-        pickedCategory: categoryPick(state),
-        cartInfo: getCartData(state),
-        currentCurrency: currencyPick(state),
-        currencySymbol: currCurrencySymbol(state)
-    }
-}
+const mapStateToProps = (state) => {
+  return {
+    products: getProductsSelector(state),
+    pickedCategory: categoryPick(state),
+    cartInfo: getCartData(state),
+    currentCurrency: currencyPick(state),
+    currencySymbol: currCurrencySymbol(state),
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-    return {
+const mapDispatchToProps = (dispatch) => {
+  return {
     getProducts: (products) => dispatch(getProducts(products)),
-    getProductDetails: (details) => dispatch(getProductDetails(details))
-    }
-}
-
+    getProductDetails: (details) => dispatch(getProductDetails(details)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

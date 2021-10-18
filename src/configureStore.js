@@ -16,7 +16,7 @@ import { reducer } from './redux/reducers/reducer'
 
 
 
-// const store = createStore( reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// export const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 const persistConfig = {
   key: 'root',
   storage,
@@ -24,8 +24,8 @@ const persistConfig = {
  
 const persistedReducer = persistReducer(persistConfig, reducer)
  
-export default () => {
-  let store = createStore(persistedReducer)
+export default function storePersist () {
+  let store = createStore(persistedReducer , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
   let persistor = persistStore(store)
   return { store, persistor }
 }

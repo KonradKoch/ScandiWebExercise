@@ -7,7 +7,7 @@ const initialState = {
     currentCurrency: "USD",
     currencySymbol: "$",
     selectedProduct: "",
-    priceInTotal: "",
+    priceInTotal: 0,
     shoppingCart: []
 }
 

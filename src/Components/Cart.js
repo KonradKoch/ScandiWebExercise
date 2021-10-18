@@ -2,7 +2,7 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import { getCartData } from "../redux/selectors/CartSelectors";
 import { currCurrencySymbol, currencyPick } from "../redux/selectors/CurrenciesSelector";
-import { getProductAttributes, getProductDetailsData, getProductsPrices } from "../redux/selectors/ProductsSelector";
+import { getProductsPrices } from "../redux/selectors/ProductsSelector";
 import CartItem from "./CartItem";
 import styled from "styled-components";
 import { addToCart, getPriceInTotal, removeFromCart } from "../redux/actions/actions";
@@ -19,22 +19,28 @@ const CartMain = styled.div`
 class Cart extends Component {
 
 
-    getTotalPrice = () => {
-        const prices = document.getElementsByName('price')
+    getTotalPrice = async () => {
         const pricesValues = [];
+        const prices = document.getElementsByName('price')
+        
         prices.forEach((price) => {
           let priceValue = parseFloat(price.getAttribute('value'));
           pricesValues.push(priceValue)
           
         });
-        if(pricesValues.length !== 0) {
-        let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
+        if(pricesValues.length !== 1 && pricesValues.length !== 0) {
+          
+        const price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
         this.props.getPriceInTotal(price)
         }
       }
     componentDidMount() {
         this.getTotalPrice();
         
+    }
+
+    componentDidUpdate() {
+        this.getTotalPrice();
     }
 
     render() {

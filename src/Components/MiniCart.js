@@ -28,7 +28,7 @@ class MiniCart extends Component {
 
   render() {
     return (
-      <CartMain>
+      <CartMain >
         {this.props.cartInfo.length === 0 ? (
           ""
         ) : (
@@ -42,7 +42,8 @@ class MiniCart extends Component {
         {this.props.cartInfo.length > 0
           ? this.props.cartInfo.map((product) => {
               return (
-                
+              
+                  
                 <MiniCartItem
                   currentCurrency={currencyPick}
                   products={getProductsPrices}
@@ -53,6 +54,7 @@ class MiniCart extends Component {
                   attributes={product}
                 />
                 
+            
                
               );
               

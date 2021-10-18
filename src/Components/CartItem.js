@@ -130,7 +130,7 @@ class CartItem extends Component {
   };
 
   getTotalPrice = () => {
-    const prices = document.getElementsByName('price')
+    const prices = document.getElementsByName('price-cart')
     const pricesValues = [];
     prices.forEach((price) => {
       let priceValue = parseFloat(price.getAttribute('value'));
@@ -138,21 +138,26 @@ class CartItem extends Component {
       
     });
     if(pricesValues.length !== 0) {
-    let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
+    let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr, 0)).toFixed(2)
     this.props.getPriceInTotal(price)
     }
   }
 
-  increaseAmount = () => {
-    return this.props.addToCart(this.props.attributes.order);
-  };
+  increaseAmount = async () => {
+    await this.props.addToCart(this.props.attributes.order)
+    this.getTotalPrice();
+   };
+
   decreaseAmount = async () => {
+    
     await this.props.removeFromCart(this.props.attributes);
-    if(this.props.attributes.quantity !== 1) {
+    
+    if(this.props.attributes.quantity !== 0) {
     return this.getTotalPrice();
     } else {
-     return this.props.getPriceInTotal("0")
+      return this.props.getPriceInTotal("0")
     }
+     
   };
 
   prevPhoto = () => {
@@ -204,7 +209,7 @@ class CartItem extends Component {
                             price.currency === this.props.currentCurrency
                         )
                         .map((price) => (
-                          <PriceLabel2 name="price">
+                          <PriceLabel2 name="price-cart">
                             {this.props.currencySymbol +
                               (
                                 price.amount *
@@ -254,6 +259,7 @@ class CartItem extends Component {
                 <img
                   style={{ width: "7.5rem", display: "flex" }}
                   src={this.state.imgs[0][this.state.counter]}
+                  alt=""
                 />
                 <label
                   onClick={() => this.nextPhoto()}

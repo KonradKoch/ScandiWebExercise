@@ -1,13 +1,9 @@
-import  PropTypes from "prop-types";
+
 import { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
-  vectorleft,
-  vectorright,
-  vectordec,
-  vectorinc,
-  vectortrash,
+
   vectorincmini,
   vectordecmini,
   vectortrashmini,
@@ -107,7 +103,7 @@ class MiniCartItem extends Component {
       ),
       imgs: this.props.attributes.order.imgs,
       counter: 0,
-      refreshItemCart: false,
+      
     };
   }
 
@@ -156,31 +152,45 @@ class MiniCartItem extends Component {
     }
   };
 
-  getTotalPrice = () => {
-    const prices = document.getElementsByName('price')
-    const pricesValues = [];
+  getTotalPrice = async () => {
+    let prices = document.getElementsByName('price')
+    let pricesValues = [];
+    
+    
     prices.forEach((price) => {
       let priceValue = parseFloat(price.getAttribute('value'));
       pricesValues.push(priceValue)
       
     });
-    if(pricesValues.length !== 0) {
-    let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr)).toFixed(2)
+    if(pricesValues.length !== 1 ) {
+      
+    const price = ((pricesValues).reduce((prev, curr)=> prev + curr)).toFixed(2)
+    console.log(prices)
     this.props.getPriceInTotal(price)
+    
+    } else if(pricesValues.length === 1) {
+      const price = ((pricesValues).reduce((prev, curr)=> prev + curr)).toFixed(2)
+      this.props.getPriceInTotal(price)
+    } else {
+      this.props.getPriceInTotal("0")
     }
   }
 
-  increaseAmount = () => {
-    return this.props.addToCart(this.props.attributes.order);
+  increaseAmount = async () => {
+    await this.props.addToCart(this.props.attributes.order)
+    this.getTotalPrice();
    };
 
   decreaseAmount = async () => {
+    
     await this.props.removeFromCart(this.props.attributes);
+    
     if(this.props.attributes.quantity !== 1) {
     return this.getTotalPrice();
     } else {
       return this.props.getPriceInTotal("0")
     }
+     
   };
    
 
@@ -273,6 +283,7 @@ class MiniCartItem extends Component {
                 <img
                   style={{ width: "7.5rem", display: "flex" }}
                   src={this.props.attributes.order.imgs[0][this.state.counter]}
+                  alt=""
                 />
                 
               </div>

@@ -4,9 +4,7 @@ export const getCartData = (state) => {
     return cartInfo;
 }
 
-export const priceInTotal = (state) => {
-    const priceInTotal = state.priceInTotal;
-    
+export const priceInTotal = (state) => {   
     return state.priceInTotal;
 }
 
