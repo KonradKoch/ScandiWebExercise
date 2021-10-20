@@ -103,18 +103,7 @@ class CartItem extends Component {
     };
   }
 
-  getAttValues() {
-    // let attributesValues = [];
-    // let attributes = document.getElementsByName("att-values")
-    // let attributesNum = document.getElementsByName("att-values").length
-    // for(let i=0; i<attributesNum; i++) {
-    //     attributesValues.push(attributes[i].getAttribute("value"))
-    // }
-    // let found = attributesValues.filter((att)=> {
-    //     return this.state.pickedAttributes.indexOf(att) !== -1;
-    // })
-    // console.log(this.state.pickedAttributes)
-  }
+  
   nextPhoto = () => {
     if (this.state.counter < this.state.imgs[0].length - 1) {
       this.setState({

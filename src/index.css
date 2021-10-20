@@ -68,17 +68,21 @@ html {
   text-align: center;
   color: black;
   background-color: rgba(255, 255, 255);
-  line-height: 3.25rem;
-  width: 11rem;
-  height: 3.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  align-self: center;
+  width: 292px;
+  height: 52px;
   z-index: 998;
   cursor: pointer;
 }
 
 @media screen and (max-width: 350px) {
   .navbar-logo {
-
-    display: none;
+    position: absolute;
+    left: 2.25rem;
     
   }
   #add-to-cart {

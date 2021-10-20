@@ -18,11 +18,13 @@ const MainProductCard = styled.div`
   display: flex;
   flex-wrap: wrap;
   grid-gap: 10px;
+  
   margin-bottom: 1rem;
 `;
 const PhotoSection = styled.div`
   display: flex;
   grid-gap: 7px;
+  width: 30em;
 `;
 
 const ImagesContainer = styled.div`
@@ -32,8 +34,7 @@ const ImagesContainer = styled.div`
 `;
 
 const MainImage = styled.img`
-  width: 16rem;
-  height: 22rem;
+  width: 80%;
 `;
 const ImgMiniature = styled.img`
   width: 3.5em;
@@ -50,14 +51,15 @@ const ProductName = styled.p`
 `;
 
 const ProductAttributeName = styled.p`
-  width: 38px;
+  width: fit-content;
   height: content-fit;
   text-transform: uppercase;
 
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 18px;
+  font-family: Roboto Condensed;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 18px;
 `;
 const ProductAttributeValues = styled.div`
   display: flex;
@@ -66,13 +68,19 @@ const ProductAttributeValues = styled.div`
 `;
 
 const ProductAttributesContainer = styled.div`
-  width: 34rem;
+  width: fit-content;
 `;
 
 const AttributeValue = styled.label`
   cursor: pointer;
+  width: 63px;
+  height: 45px;
   border: 1px solid black;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  font-family: Source Sans Pro;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 0.05em;
   margin: 0.3rem 0.5rem 0 0;
 `;
 
@@ -82,20 +90,22 @@ const PRICE = styled.p`
   height: 18px;
   text-transform: uppercase;
 
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 18px;
+  font-family: Roboto Condensed;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 18px;
 `;
 
 const PriceLabel2 = styled.label`
   padding: 0;
   margin: 0;
   width: 100%;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 160%;
+  font-family: Raleway;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 18px;
   text-align: left;
 `;
 
@@ -105,9 +115,9 @@ const AddToCartButton = styled.button`
   align-items: center;
   padding: 16px 32px;
   align-self: center;
-  width: 11em;
+  width: 292px;
   height: 52px;
-  position: absolute;
+  
   background: lighgrey;
   font-family: Raleway;
   font-style: normal;
@@ -127,9 +137,7 @@ class ProductCard extends Component {
     };
   }
 
-  componentDidMount() {
-    this.handleNoAtt();
-  }
+
 
   handleAttributePick = async (e) => {
     let objectAsArray = (obj) =>
@@ -205,6 +213,21 @@ class ProductCard extends Component {
         button.style.backgroundColor = "#5ECE7B";
         button.style.cursor = "pointer";
       });
+    } else {
+      const firstValues = [];
+      const valuesContainer = document.getElementsByName('attributes-values-container');
+      valuesContainer.forEach((value) => {
+        firstValues.push(value.firstChild);
+        
+      })
+      for (let i = 0; i <valuesContainer.length; i ++) {
+        setTimeout(() => {
+          firstValues[i].click();
+        }, 50)
+        
+      }
+      
+      
     }
   }
 
@@ -231,6 +254,9 @@ class ProductCard extends Component {
   generateKey = (pre) => {
     return `${ pre }_${ new Date().getTime() }`;
 }
+componentDidMount() {
+  this.handleNoAtt();
+}
 
   render() {
     return (
@@ -256,7 +282,39 @@ class ProductCard extends Component {
                     margin: "1em",
                   }}
                 >
-                  {avability === false ? (
+                 
+                
+                </div>
+              </PhotoSection>
+
+              <ProductAttributesContainer>
+                <ProductName>{product.name}</ProductName>
+                {product.attributes.map((attribute) => {
+                  return (
+                    <ProductDataContainer>
+                      <ProductAttributeName
+                        value={attribute.name}
+                        name="attribute-name"
+                      >
+                        {attribute.name}:
+                      </ProductAttributeName>
+                      <ProductAttributeValues name="attributes-values-container">
+                        {attribute.items.map((item) => (
+                          <AttributeValue
+                            className="att-value"
+                            type="button"
+                            onClick={(e) => this.handleAttributePick(e)}
+                            value={item.displayValue}
+                            name={attribute.name}
+                          >
+                            {item.displayValue}
+                          </AttributeValue>
+                        ))}
+                      </ProductAttributeValues>
+                    </ProductDataContainer>
+                  );
+                })}
+                 {avability === false ? (
                     <Link to={`/${product.category}/`}>
                       <div id="avaibility-card"
                     
@@ -276,36 +334,6 @@ class ProductCard extends Component {
                   >
                     ADD TO CART
                   </AddToCartButton>
-                </div>
-              </PhotoSection>
-
-              <ProductAttributesContainer>
-                <ProductName>{product.name}</ProductName>
-                {product.attributes.map((attribute) => {
-                  return (
-                    <ProductDataContainer>
-                      <ProductAttributeName
-                        value={attribute.name}
-                        name="attribute-name"
-                      >
-                        {attribute.name}:
-                      </ProductAttributeName>
-                      <ProductAttributeValues>
-                        {attribute.items.map((item) => (
-                          <AttributeValue
-                            className="att-value"
-                            type="button"
-                            onClick={(e) => this.handleAttributePick(e)}
-                            value={item.displayValue}
-                            name={attribute.name}
-                          >
-                            {item.displayValue}
-                          </AttributeValue>
-                        ))}
-                      </ProductAttributeValues>
-                    </ProductDataContainer>
-                  );
-                })}
                 <PRICE>PRICE:</PRICE>
                 {product.prices
                   .filter(
@@ -321,10 +349,11 @@ class ProductCard extends Component {
                       {this.props.currencySymbol + price.amount.toFixed(2)}
                     </PriceLabel2>
                   ))}
-                <div
+                
+              </ProductAttributesContainer>
+              <div
                   dangerouslySetInnerHTML={{ __html: `${product.description}` }}
                 />
-              </ProductAttributesContainer>
             </Fragment>
           );
         })}
