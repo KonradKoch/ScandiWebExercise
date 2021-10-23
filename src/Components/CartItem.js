@@ -8,7 +8,11 @@ import {
   vectorinc,
   vectortrash,
 } from "../assets/Vector";
-import { addToCart, getPriceInTotal, removeFromCart } from "../redux/actions/actions";
+import {
+  addToCart,
+  getPriceInTotal,
+  removeFromCart,
+} from "../redux/actions/actions";
 import {
   currCurrencySymbol,
   currencyPick,
@@ -99,11 +103,9 @@ class CartItem extends Component {
       ),
       imgs: this.props.attributes.order.imgs,
       counter: 0,
-      refreshItemCart: false,
     };
   }
 
-  
   nextPhoto = () => {
     if (this.state.counter < this.state.imgs[0].length - 1) {
       this.setState({
@@ -119,34 +121,34 @@ class CartItem extends Component {
   };
 
   getTotalPrice = () => {
-    const prices = document.getElementsByName('price-cart')
+    const prices = document.getElementsByName("price-cart");
     const pricesValues = [];
     prices.forEach((price) => {
-      let priceValue = parseFloat(price.getAttribute('value'));
-      pricesValues.push(priceValue)
-      
+      let priceValue = parseFloat(price.getAttribute("value"));
+      pricesValues.push(priceValue);
     });
-    if(pricesValues.length !== 0) {
-    let price = ((pricesValues.slice(0, -1)).reduce((prev, curr)=> prev + curr, 0)).toFixed(2)
-    this.props.getPriceInTotal(price)
+    if (pricesValues.length !== 0) {
+      let price = pricesValues
+        .slice(0, -1)
+        .reduce((prev, curr) => prev + curr, 0)
+        .toFixed(2);
+      this.props.getPriceInTotal(price);
     }
-  }
+  };
 
   increaseAmount = async () => {
-    await this.props.addToCart(this.props.attributes.order)
+    await this.props.addToCart(this.props.attributes.order);
     this.getTotalPrice();
-   };
+  };
 
   decreaseAmount = async () => {
-    
     await this.props.removeFromCart(this.props.attributes);
-    
-    if(this.props.attributes.quantity !== 0) {
-    return this.getTotalPrice();
+
+    if (this.props.attributes.quantity !== 0) {
+      return this.getTotalPrice();
     } else {
-      return this.props.getPriceInTotal("0")
+      return this.props.getPriceInTotal("0");
     }
-     
   };
 
   prevPhoto = () => {
@@ -201,8 +203,7 @@ class CartItem extends Component {
                           <PriceLabel2 name="price-cart">
                             {this.props.currencySymbol +
                               (
-                                price.amount *
-                                this.props.attributes.quantity
+                                price.amount * this.props.attributes.quantity
                               ).toFixed(2)}
                           </PriceLabel2>
                         ));
@@ -296,7 +297,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (order) => dispatch(addToCart(order)),
     removeFromCart: (order) => dispatch(removeFromCart(order)),
-    getPriceInTotal: (price) => dispatch(getPriceInTotal(price))
+    getPriceInTotal: (price) => dispatch(getPriceInTotal(price)),
   };
 };
 

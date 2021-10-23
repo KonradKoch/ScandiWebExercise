@@ -1,4 +1,8 @@
-import { addToCart, getPriceInTotal, removeFromCart } from "../redux/actions/actions";
+import {
+  addToCart,
+  getPriceInTotal,
+  removeFromCart,
+} from "../redux/actions/actions";
 
 import { getProductsPrices } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
@@ -28,40 +32,39 @@ class MiniCart extends Component {
 
   render() {
     return (
-      <CartMain >
+      <CartMain>
         {this.props.cartInfo.length === 0 ? (
           ""
         ) : (
-          <div style={{ display: "flex", flexDirection: "row"}}>
-            <p style={{fontWeight: "800", margin:'0'}}>My bag</p>
-            <p style={{ width: "80%", fontWeight: "300", margin:'0' }}>{", " + this.props.cartInfo.length}{" "}
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <p style={{ fontWeight: "800", margin: "0" }}>My bag</p>
+            <p style={{ width: "80%", fontWeight: "300", margin: "0" }}>
+              {", " + this.props.cartInfo.length}{" "}
               {this.props.cartInfo.length > 1 ? "items" : "item"}
             </p>
           </div>
         )}
-        {this.props.cartInfo.length > 0
-          ? this.props.cartInfo.map((product) => {
-              return (
-              
-                  
-                <MiniCartItem
-                  currentCurrency={currencyPick}
-                  products={getProductsPrices}
-                  currencySymbol={currCurrencySymbol}
-                  removeFromCart={removeFromCart}
-                  addToCart={addToCart}
-                  getPriceInTotal={getPriceInTotal}
-                  attributes={product}
-                />
-                
-            
-               
-              );
-              
-            }) 
-            
-          : <><p style={{position: "absolute"}}>There are no products in your basket</p></>} 
-          
+        {this.props.cartInfo.length > 0 ? (
+          this.props.cartInfo.map((product) => {
+            return (
+              <MiniCartItem
+                currentCurrency={currencyPick}
+                products={getProductsPrices}
+                currencySymbol={currCurrencySymbol}
+                removeFromCart={removeFromCart}
+                addToCart={addToCart}
+                getPriceInTotal={getPriceInTotal}
+                attributes={product}
+              />
+            );
+          })
+        ) : (
+          <>
+            <p style={{ position: "absolute" }}>
+              There are no products in your basket
+            </p>
+          </>
+        )}
       </CartMain>
     );
   }

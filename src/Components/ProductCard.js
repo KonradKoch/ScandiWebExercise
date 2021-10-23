@@ -140,18 +140,14 @@ class ProductCard extends Component {
 
 
   handleAttributePick = async (e) => {
-    let objectAsArray = (obj) =>
-      Object.keys(this.state).map((key) => [key, obj[key]]);
     let AttributesNumber = document.getElementsByName("attribute-name").length;
-    
     let pickedAttributeValue = e.target.getAttribute("value");
     let pickedAttributeName = e.target.getAttribute("name");
     let allAttributes = document.getElementsByName(pickedAttributeName);
+    let objectAsArray = (obj) =>
+      Object.keys(this.state).map((key) => [key, obj[key]]);
     const attributes = [];
 
-    // for (let i = 0; i < allAttributes.length; i++) {
-    //   attributes.push(allAttributes[i].getAttribute("value"));
-    // }
 
     allAttributes.forEach((attribute) => {
       attributes.push(attribute.getAttribute('value'))
@@ -232,8 +228,8 @@ class ProductCard extends Component {
   }
 
   getTotalPrice = () => {
-    const prices = document.getElementsByName('price-productcard')
-    const pricesValues = [];
+    let prices = document.getElementsByName('price-productcard')
+    let pricesValues = [];
     prices.forEach((price) => {
       let priceValue = parseFloat(price.getAttribute('value'));
       pricesValues.push(priceValue)
@@ -251,9 +247,6 @@ class ProductCard extends Component {
     this.getTotalPrice();
   };
 
-  generateKey = (pre) => {
-    return `${ pre }_${ new Date().getTime() }`;
-}
 componentDidMount() {
   this.handleNoAtt();
 }

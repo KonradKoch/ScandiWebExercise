@@ -191,7 +191,7 @@ class Header extends Component {
       currencies: [],
       currenciesMenuIsOpen: false,
       miniCartIsOpen: false,
-      symbols: ["$", "£", "$", "¥", "₽"],
+      symbols: ["$", "£", "$", "¥", "₽"], 
     };
   }
 
@@ -413,7 +413,7 @@ class Header extends Component {
                 }}
               >
                 <div style={{ height: "2rem" }}>
-                  <label style={{ width: "auto", margin: "0 9rem 0 0" }}>
+                  <label style={{ width: "auto", margin: "0 8.5rem 0 0" }}>
                     Total:
                   </label>
                   <label style={{ width: "3rem" }}>

@@ -1,16 +1,11 @@
 import gql from "graphql-tag";
 import { Component } from "react";
 import { connect } from "react-redux";
-import {
-
-  getProductDetails,
-  getProducts,
-} from "../redux/actions/actions";
+import { getProductDetails, getProducts } from "../redux/actions/actions";
 import { categoryPick } from "../redux/selectors/CategorySelector";
 import {
   currCurrencySymbol,
   currencyPick,
-
 } from "../redux/selectors/CurrenciesSelector";
 import { getProductsSelector } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
@@ -73,14 +68,7 @@ const PriceLabel = styled.label`
 `;
 
 class Products extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-      // firstIMGS: [],
-      // names: []
-    };
-  }
+  
 
   getAllProducts() {
     this.props.client
@@ -112,11 +100,7 @@ class Products extends Component {
       })
       .then((result) => {
         let products = result.data.category.products;
-        this.setState({
-          products: products,
-        });
         this.props.getProducts(products);
-        // this.getListData();
       });
   }
 
@@ -125,30 +109,16 @@ class Products extends Component {
     this.props.getProductDetails(value);
   }
 
-  // getListData () {
-  //     let frontIMGS = [];
-  //     let p_names = [];
-  //     for(let i=0; i<this.state.products.length; i++) {
-  //         frontIMGS.push(this.state.products[i].gallery[0]);
-  //         p_names.push(this.state.products[i].name)
-  //     }
-  //     this.setState({
-  //         ...this.state,
-  //         firstIMGS: frontIMGS,
-  //         names: p_names
-  //     });
-  // }
-
   componentDidMount() {
     this.getAllProducts();
   }
 
-  componentDidUpdate() {}
-
   render() {
     return (
       <div key={Math.random()}>
-        <CurrentCategory key={Math.random()}>{this.props.pickedCategory}</CurrentCategory>
+        <CurrentCategory key={Math.random()}>
+          {this.props.pickedCategory}
+        </CurrentCategory>
         <ProductList key={`${Math.random()}`}>
           {this.props.products.map((product, i) => {
             let avability = Boolean(product.inStock);
@@ -162,26 +132,24 @@ class Products extends Component {
                   to={`/${product.category}/${product.name}/0`}
                 >
                   {avability === false ? (
-                    
-                      <div
-                        value={product.name}
-                        key={`${Math.random()}`}
-                        style={{
-                          position: "absolute",
-                          lineHeight: "20rem",
-                          textAlign: "center",
-                          color: "black",
-                          backgroundColor: "rgba(255, 255, 255)",
-                          opacity: "0.5",
-                          width: "330px",
-                          height: "320px",
-                          zIndex: "998",
-                          cursor: "default",
-                        }}
-                      >
-                        OUT OF STOCK
-                      </div>
-                  
+                    <div
+                      value={product.name}
+                      key={`${Math.random()}`}
+                      style={{
+                        position: "absolute",
+                        lineHeight: "20rem",
+                        textAlign: "center",
+                        color: "black",
+                        backgroundColor: "rgba(255, 255, 255)",
+                        opacity: "0.5",
+                        width: "330px",
+                        height: "320px",
+                        zIndex: "998",
+                        cursor: "default",
+                      }}
+                    >
+                      OUT OF STOCK
+                    </div>
                   ) : (
                     ""
                   )}
@@ -203,7 +171,10 @@ class Products extends Component {
                         alt="BUY"
                       />
                     </div>
-                    <ProductNameLabel value={product.name} key={`${Math.random()}`}>
+                    <ProductNameLabel
+                      value={product.name}
+                      key={`${Math.random()}`}
+                    >
                       {product.name}
                     </ProductNameLabel>
                     {product.prices
@@ -211,7 +182,10 @@ class Products extends Component {
                         (price) => price.currency === this.props.currentCurrency
                       )
                       .map((price) => (
-                        <PriceLabel value={product.name} key={`${Math.random()}`}>
+                        <PriceLabel
+                          value={product.name}
+                          key={`${Math.random()}`}
+                        >
                           {this.props.currencySymbol + price.amount.toFixed(2)}
                         </PriceLabel>
                       ))}
