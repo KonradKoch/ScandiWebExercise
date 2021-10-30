@@ -12,6 +12,7 @@ import {
   currencyPick,
 } from "../redux/selectors/CurrenciesSelector";
 import { getCartData } from "../redux/selectors/CartSelectors";
+import Interweave from "interweave";
 
 const MainProductCard = styled.div`
   padding: 5em 0 0 3%;
@@ -35,6 +36,8 @@ const ImagesContainer = styled.div`
 
 const MainImage = styled.img`
   width: 80%;
+  height: fit-content;
+  
 `;
 const ImgMiniature = styled.img`
   width: 3.5em;
@@ -48,6 +51,7 @@ const ProductDataContainer = styled.div`
 
 const ProductName = styled.p`
   font-weight: 600;
+  font-size: 30px;
 `;
 
 const ProductAttributeName = styled.p`
@@ -267,17 +271,7 @@ componentDidMount() {
                   ))}
                 </ImagesContainer>
                 <MainImage src={product.gallery[this.props.product]} />
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "10em",
-                    top: "30em",
-                    margin: "1em",
-                  }}
-                >
-                 
                 
-                </div>
               </PhotoSection>
 
               <ProductAttributesContainer>
@@ -334,19 +328,15 @@ componentDidMount() {
                   )
                   .map((price) => (
                     <PriceLabel2
-                      value={product.prices
-                        .filter((prices) => prices.currency === "USD")
-                        .map((price) => "$" + price.amount)}
                       name="price-productcard"
                     >
                       {this.props.currencySymbol + price.amount.toFixed(2)}
                     </PriceLabel2>
                   ))}
-                
+                <div style={{width:'292px', marginTop: '2.5rem'}}><Interweave content={product.description}/></div>
               </ProductAttributesContainer>
-              <div
-                  dangerouslySetInnerHTML={{ __html: `${product.description}` }}
-                />
+              
+              
             </Fragment>
           );
         })}

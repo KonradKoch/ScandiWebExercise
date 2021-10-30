@@ -31,7 +31,7 @@ const HeaderDiv = styled.div`
   position: flex;
   flex-wrap: wrap;
   justify-content: left;
-  padding-left: 5em;
+  margin-left: 5vw;
   height: 4rem;
   width: 100%;
 `;

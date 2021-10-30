@@ -59,8 +59,9 @@ html {
   justify-content: center;
   display:flex;
   align-self: center;
-  flex-direction: row;
-  width: calc(100% - 20em);
+  width: fit-content;
+  position: absolute;
+  left: 50%;
 }
 
 #avaibility-card {
@@ -71,20 +72,41 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin: -1px;
   align-self: center;
-  width: 292px;
-  height: 52px;
+  width: 294px;
+  height: 54px;
   z-index: 998;
   cursor: pointer;
 }
 
-@media screen and (max-width: 350px) {
-  .navbar-logo {
-    position: absolute;
-    left: 2.25rem;
+@media screen and (max-width: 1207px) {
+  
+ 
+  
+
+  #products-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  }
+
+@media screen and (max-width: 400px) {
+  
+  #products-list {
+    flex-direction: column;
     
   }
+  #product-card {
+    width: 99%;
+  }
+
+}
+
+
+@media screen and (max-width: 350px) {
+ 
   
   #minicart-main {
     margin: 0 0 0 -17.3rem;
@@ -95,4 +117,6 @@ html {
     top: 28.5em !important;
     right: 1.5em !important;
   }
+
+ 
 }
