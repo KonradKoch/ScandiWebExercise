@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import ApolloClient from "apollo-boost";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { ApolloProvider } from "react-apollo";
@@ -22,7 +22,7 @@ const client = new ApolloClient({
   uri: "http://localhost:4000/",
 });
 
-class App extends Component {
+class App extends PureComponent {
   render() {
     return (
    

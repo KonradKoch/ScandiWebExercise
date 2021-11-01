@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { getProductDetails, getProducts } from "../redux/actions/actions";
 import { categoryPick } from "../redux/selectors/CategorySelector";
@@ -35,7 +35,7 @@ box-sizing: border-box;
 `;
 
 const CurrentCategory = styled.div`
-  padding: 2em 0 0 0;
+  padding: 3em 0 0 0;
   margin: 0 0 0 5vw;
   text-transform: capitalize;
   font-size: 42px;
@@ -52,6 +52,7 @@ const ProductList = styled.div`
   justify-items: center;
   justify-content: center;
   align-content: center;
+  place-item: center;
 `;
 
 const ProductNameLabel = styled.label`
@@ -73,7 +74,7 @@ const PriceLabel = styled.label`
   text-align: left;
 `;
 
-class Products extends Component {
+class Products extends PureComponent {
   
 
   getAllProducts() {
@@ -140,34 +141,21 @@ class Products extends Component {
                   
                   <ProductCard id="product-card" value={product.name} key={`${Math.random()}`}>
                   {avability === false ? (
-                    <div
+                    <div id="product-list-avability"
                       value={product.name}
                       key={`${Math.random()}`}
-                      style={{
-                        position: "absolute",
-                        lineHeight: "20rem",
-                        marginBottom: '10rem',
-                        textAlign: "center",
-                        color: "black",
-                        backgroundColor: "rgba(255, 255, 255)",
-                        opacity: "0.5",
-                        width: "320px",
-                        height: "300px",
-                        zIndex: "998",
-                        cursor: "default",
-                      }}
+                      
                     >
                       OUT OF STOCK
                     </div>
                   ) : (
                     ""
                   )}
-                    <img
+                    <img id="product-list-img"
                       key={`${Math.random()}`}
                       value={product.name}
-                      style={{ width: "auto", height: "55%", marginTop: "10.38px"}}
                       src={product.gallery[0]}
-                      alt="Product"
+                      alt={`product ${product.name} view`}
                     />
                     <div key={`${Math.random()}`}>
                       <img

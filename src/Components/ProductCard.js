@@ -1,4 +1,4 @@
-import { Component, Fragment } from "react";
+import { PureComponent, Fragment } from "react";
 import styled from "styled-components";
 import { addToCart, getPriceInTotal } from "../redux/actions/actions";
 import { connect } from "react-redux";
@@ -130,7 +130,7 @@ const AddToCartButton = styled.button`
   color: grey;
 `;
 
-class ProductCard extends Component {
+class ProductCard extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -262,15 +262,15 @@ componentDidMount() {
           let avability = Boolean(product.inStock);
           return (
             <Fragment>
-              <PhotoSection >
-                <ImagesContainer>
+              <PhotoSection id="photo-section" >
+                <ImagesContainer id="miniatures-img-container">
                   {product.gallery.map((img, i) => (
                     <NavLink activeClassName="active-photo" to={`${i}`}>
                       <ImgMiniature src={img} />
                     </NavLink>
                   ))}
                 </ImagesContainer>
-                <MainImage src={product.gallery[this.props.product]} />
+                <MainImage src={product.gallery[this.props.product]} id="main-img-product-card"/>
                 
               </PhotoSection>
 

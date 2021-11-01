@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { backgroundlogo1, shopping, vector0, vector1 } from "../assets/Vector";
@@ -183,7 +183,7 @@ const CartCounterLabel = styled.label `
   z-index: 999;
         `
 
-class Header extends Component {
+class Header extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

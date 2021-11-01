@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import {
@@ -93,7 +93,7 @@ const PriceLabel2 = styled.label`
   text-align: left;
 `;
 
-class MiniCartItem extends Component {
+class MiniCartItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

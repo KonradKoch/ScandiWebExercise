@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { getCartData } from "../redux/selectors/CartSelectors";
 import {
@@ -22,7 +22,7 @@ const CartMain = styled.div`
   flex-direction: column;
 `;
 
-class Cart extends Component {
+class Cart extends PureComponent {
  
 
   render() {

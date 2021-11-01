@@ -6,7 +6,7 @@ import {
 
 import { getProductsPrices } from "../redux/selectors/ProductsSelector";
 import styled from "styled-components";
-import { Component } from "react";
+import { PureComponent } from "react";
 import { connect } from "react-redux";
 import { getCartData } from "../redux/selectors/CartSelectors";
 import {
@@ -27,7 +27,7 @@ const CartMain = styled.div`
   overflow-y: auto;
 `;
 
-class MiniCart extends Component {
+class MiniCart extends PureComponent {
   componentDidMount() {}
 
   render() {
