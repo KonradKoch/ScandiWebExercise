@@ -5,18 +5,19 @@ import {
   vectorincmini,
   vectordecmini,
   vectortrashmini,
-} from "../assets/Vector";
+} from "../../assets/Vector";
 import {
   addToCart,
   removeFromCart,
   getPriceInTotal,
-} from "../redux/actions/actions";
-import { priceInTotal } from "../redux/selectors/CartSelectors";
+} from "../../redux/actions/actions";
+import { priceInTotal } from "../../redux/selectors/CartSelectors";
 import {
   currCurrencySymbol,
   currencyPick,
-} from "../redux/selectors/CurrenciesSelector";
-import { getProductsPrices } from "../redux/selectors/ProductsSelector";
+} from "../../redux/selectors/CurrenciesSelector";
+import { getProductsPrices } from "../../redux/selectors/ProductsSelector";
+import divideTheName from "../../utilities/DivideTheName";
 
 const CartItemMain = styled.div`
   display: flex;
@@ -25,9 +26,9 @@ const CartItemMain = styled.div`
 `;
 
 const CartItemData = styled.div`
-  width: 80%;
+  width: 95%;
 
-  border-top: 2px solid #e5e5e5;
+  
 `;
 const CartItemValues = styled.div`
   width: 100%;
@@ -35,13 +36,18 @@ const CartItemValues = styled.div`
 `;
 const AttributeValue = styled.label`
   display: flex;
-  height: 100%;
-  flex-wrap: no-wrap;
+  font-family: Source Sans Pro, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  height: auto;
+  margin: 0.25rem;
+  flex-wrap: wrap;
   grid-gap: 4px;
 `;
 const AttributeValue2 = styled.label`
   display: flex;
   flex-wrap: wrap;
+ 
   border: 1px solid grey;
   color: rgba(166, 166, 166, 1);
   background-color: rgba(0, 0, 0, 0.15);
@@ -50,6 +56,7 @@ const AttributeValue2 = styled.label`
 const AttributeValue3 = styled.label`
   display: flex;
   flex-wrap: wrap;
+  
   color: black;
   background-color: white;
   border: 1px solid black;
@@ -58,6 +65,9 @@ const AttributeValue3 = styled.label`
 
 const AttributeName = styled.p`
   margin: 0.5rem;
+  font-weight: 300;
+  font-size: 13px;
+  margin: 0.5rem 0 0.1rem 0;
 `;
 const QuantityButtons = styled.button`
   height: 1.5rem;
@@ -74,9 +84,9 @@ const QuantityValues = styled.label`
 `;
 
 const QuantityCounter = styled.div`
-  margin: 0.5rem;
-  justify-content: center;
-  grid-gap: 1rem;
+  margin: 0 0.5rem 0 0;
+  justify-content: space-between;
+  
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -88,7 +98,8 @@ const PriceLabel2 = styled.label`
   width: 100%;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  
+  font-size: 16px;
   line-height: 160%;
   text-align: left;
 `;
@@ -97,12 +108,7 @@ class MiniCartItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      avaibleAttValues: Object.values(
-        this.props.attributes.order.avaibleAttValues 
-      ),
-      availbleAttKeys: Object.keys(
-        this.props.attributes.order.avaibleAttValues
-      ),
+      
       imgs: this.props.attributes.order.imgs,
       counter: 0,
     };
@@ -182,6 +188,7 @@ class MiniCartItem extends PureComponent {
     let avaibleAttValues = Object.values(
       this.props.attributes.order.avaibleAttValues
     );
+    let {firstName, secondName} = divideTheName(this.props.attributes.order.name)
 
     return (
       <CartItemMain>
@@ -196,8 +203,9 @@ class MiniCartItem extends PureComponent {
                   width: "55%",
                 }}
               >
-                <p>{this.props.attributes.order.name}</p>
-                <p>
+                <p style={{fontWeight: "300", margin: "0"}}>{firstName}</p>
+                <p style={{fontWeight: "300", margin: "0"}}>{secondName}</p>
+                <div>
                   {this.props.products
                     .filter(
                       (product) =>
@@ -224,8 +232,37 @@ class MiniCartItem extends PureComponent {
                           </PriceLabel2>
                         ));
                     })}
-                </p>
+                    {avaibleAttValues.map((value, i) => {
+              const key = Object.keys(
+                this.props.attributes.order.avaibleAttValues
+              );
+              const values = Object.entries(this.props.attributes.order).slice(
+                3
+              );
+              return (
+                <>
+                  <AttributeName>{key[i].toUpperCase()} :</AttributeName>
+                  <AttributeValue>
+                    {value.map((item) => {
+                      const AttValues = values[i].includes(item);
+                      return AttValues ? (
+                        <AttributeValue3 name="att-values" value={item}>
+                          {item}
+                        </AttributeValue3>
+                      ) : (
+                        <AttributeValue2 name="att-values" value={item}>
+                          {item}
+                        </AttributeValue2>
+                      );
+                    })}
+                  </AttributeValue>
+                </>
+              );
+            })}
+                </div>
+                
               </div>
+              
               <QuantityCounter>
                 <QuantityButtons onClick={() => this.increaseAmount()}>
                   <label
@@ -266,41 +303,15 @@ class MiniCartItem extends PureComponent {
                   )}
                 </QuantityButtons>
               </QuantityCounter>
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                 <img
-                  style={{ width: "7.5rem", display: "flex" }}
+                  style={{ width: "105px", display: "flex", height: "fit-content"}}
                   src={this.props.attributes.order.imgs[0][this.state.counter]}
                   alt=""
                 />
               </div>
             </div>
-            {avaibleAttValues.map((value, i) => {
-              const key = Object.keys(
-                this.props.attributes.order.avaibleAttValues
-              );
-              const values = Object.entries(this.props.attributes.order).slice(
-                3
-              );
-              return (
-                <>
-                  <AttributeName>{key[i].toUpperCase()} :</AttributeName>
-                  <AttributeValue>
-                    {value.map((item) => {
-                      const AttValues = values[i].includes(item);
-                      return AttValues ? (
-                        <AttributeValue3 name="att-values" value={item}>
-                          {item}
-                        </AttributeValue3>
-                      ) : (
-                        <AttributeValue2 name="att-values" value={item}>
-                          {item}
-                        </AttributeValue2>
-                      );
-                    })}
-                  </AttributeValue>
-                </>
-              );
-            })}
+            
           </CartItemValues>
         </CartItemData>
       </CartItemMain>

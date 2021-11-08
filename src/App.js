@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import ApolloClient from "apollo-boost";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { ApolloProvider } from "react-apollo";
-import Header from "./Components/Header";
+import Header from "./Components/Header/Header";
 import {
   getCurrency,
   getProducts,
@@ -12,9 +12,9 @@ import {
   addToCart,
   getPriceInTotal,
 } from "./redux/actions/actions";
-import Products from "./Components/Products";
-import ProductCard from "./Components/ProductCard";
-import Cart from "./Components/Cart";
+import Products from "./Components/Products/Products";
+import ProductCard from "./Components/ProductCard/ProductCard";
+import Cart from "./Components/Cart/Cart";
 import { getCartData } from "./redux/selectors/CartSelectors";
 
 // const store = createStore( null, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())

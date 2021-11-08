@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro&family=Roboto&display=swap');
 
 body {
   margin: 0;
@@ -164,12 +164,27 @@ html {
   
   #minicart-main {
     margin: 0 0 0 -17.3rem;
-    max-height: 30rem;
+    max-height: calc(100% + 25rem);
+    overflow-y: hidden;
   }
+  
+  /* #minicart-totalprice-container{
+    position: fixed;
+    top: 22.5em !important;
+    padding-bottom: 0.25rem;         
+    right: 0.3rem !important;
+    text-align: center;
+    z-index: 997;
+    width: 20rem;
+    height: 6rem;
+    background-color: white;
+    font-weight: 900;
+  } */
 
   #total-price-container {
-    top: 28.5em !important;
-    right: 1.5em !important;
+    top: 30em !important;
+    right: 0.3em !important;
+    width: 20rem !important;
   }
   
   
@@ -185,6 +200,8 @@ html {
   #main-img-product-card{
     width: 18rem
   }
-
+  #product-list-img{
+    height: 14rem !important; 
+  }
  
 }
