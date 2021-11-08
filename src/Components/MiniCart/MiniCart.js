@@ -16,21 +16,9 @@ import {
 
 import MiniCartItem from "../MiniCartItem/MiniCartItem";
 import { HowManyItems } from "../../utilities/HowManyItems";
+import { MiniCartMain, MyBagLengthCounter, MyBagText, NoOfItemsText, NoProductsMiniCartDiv, NoProductsMiniCartText } from "./MiniCartStyledComponents";
 
-const CartMain = styled.div`
-  padding: 1em 0 1em 3%;
-  display: grid;
-  align-content: center;
-  align-items: baseline;
-  position: relative;
-  z-index: 995;
-  height: calc(40% + 15rem);
-  display: block;
-  flex-wrap: wrap;
-  grid-gap: 1em;
-  flex-direction: column;
-  overflow-y: auto;
-`;
+
 
 class MiniCart extends PureComponent {
   componentDidMount() {}
@@ -39,16 +27,16 @@ class MiniCart extends PureComponent {
     let noOfItems = this.props.cartInfo.length
     let cartItems = this.props.cartInfo
     return (
-      <CartMain id="mini-cart-main">
+      <MiniCartMain id="mini-cart-main">
         {noOfItems === 0 ? (
           ""
         ) : (
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <p style={{ fontWeight: "800", margin: "0" }}>My bag</p>
-            <p style={{ width: "80%", fontWeight: "300", margin: "0" }}>
+          <MyBagLengthCounter>
+            <MyBagText>My bag</MyBagText>
+            <NoOfItemsText>
               {HowManyItems(noOfItems)}
-            </p>
-          </div>
+            </NoOfItemsText>
+          </MyBagLengthCounter>
         )}
         {noOfItems > 0 ? (
           cartItems.map((product) => {
@@ -65,13 +53,13 @@ class MiniCart extends PureComponent {
             );
           })
         ) : (
-          <div>
-            <p style={{  margin: "0"}}>
-              {`There are no products in your basket, add products to proceed your order.`}
-            </p>
-          </div>
+          <NoProductsMiniCartDiv>
+            <NoProductsMiniCartText>
+              There are no products in your basket, add products to proceed your order.
+            </NoProductsMiniCartText>
+          </NoProductsMiniCartDiv>
         )}
-      </CartMain>
+      </MiniCartMain>
     );
   }
 }
