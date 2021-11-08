@@ -53,7 +53,7 @@ const ProductDataContainer = styled.div`
   margin: 2rem 0 2rem 0;
 `;
 
-const ProductName = styled.p`
+const ProductName = styled.label`
   font-weight: 600;
   font-size: 30px;
 `;
@@ -279,7 +279,7 @@ componentDidMount() {
               </PhotoSection>
 
               <ProductAttributesContainer>
-                <ProductName><div><p style={{fontWeight: "600", fontSize: "30px", marginBottom: "0"}}>{firstName}</p><p style={{fontWeight: "400", fontSize: "30px", margin: "0"}}>{secondName}</p></div></ProductName>
+                <ProductName><label><p style={{fontWeight: "600", fontSize: "30px", marginBottom: "0"}}>{firstName}</p><p style={{fontWeight: "400", fontSize: "30px", margin: "0"}}>{secondName}</p></label></ProductName>
                 {product.attributes.map((attribute) => {
                   return (
                     <ProductDataContainer>
