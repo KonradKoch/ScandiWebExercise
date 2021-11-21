@@ -11,6 +11,8 @@ import { getProductsSelector } from "../../redux/selectors/ProductsSelector";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { getCartData } from "../../redux/selectors/CartSelectors";
+import { ProductNameAndPriceContainer } from "./ProductsStyledComponents";
+import { getAllProductsQuery } from "../../utilities/gqlQueries";
 
 const ProductCard = styled.div`
 box-sizing: border-box;
@@ -68,7 +70,7 @@ const ProductNameLabel = styled.label`
 const PriceLabel = styled.label`
   width: 100%;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 18px;
   line-height: 160%;
   text-align: left;
@@ -81,28 +83,7 @@ class Products extends PureComponent {
     this.props.client
       .query({
         query: gql`
-          query {
-            category {
-              products {
-                inStock
-                description
-                attributes {
-                  name
-                  id
-                  items {
-                    displayValue
-                  }
-                }
-                category
-                name
-                gallery
-                prices {
-                  amount
-                  currency
-                }
-              }
-            }
-          }
+          ${getAllProductsQuery}
         `,
       })
       .then((result) => {
@@ -167,7 +148,7 @@ class Products extends PureComponent {
                         alt="BUY"
                       />
                     </div>
-                    <div style={{display: 'flex', flexDirection: 'column', alignSelf: 'flex-start', marginLeft: '0.5rem'}}>
+                    <ProductNameAndPriceContainer>
                     <ProductNameLabel
                       value={product.name}
                       key={`${Math.random()}`}
@@ -185,7 +166,7 @@ class Products extends PureComponent {
                         >
                           {this.props.currencySymbol + price.amount.toFixed(2)}
                         </PriceLabel>
-                      ))} </div>
+                      ))} </ProductNameAndPriceContainer>
                   </ProductCard>
                 </NavLink>
               </div>

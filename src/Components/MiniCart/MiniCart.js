@@ -21,7 +21,7 @@ import { MiniCartMain, MyBagLengthCounter, MyBagText, NoOfItemsText, NoProductsM
 
 
 class MiniCart extends PureComponent {
-  componentDidMount() {}
+
 
   render() {
     let noOfItems = this.props.cartInfo.length

@@ -157,6 +157,7 @@ display: flex;
 `
 export const ImagesSliderControl = styled.div `
 position: absolute;
+
  width: 30vw;
   max-width: 20rem;
    height: 10rem;

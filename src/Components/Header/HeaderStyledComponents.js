@@ -44,6 +44,7 @@ export const DropDownContainer = styled.div`
   width: 1.5em;
   height: 1.5em;
   margin: 0;
+  font-weight: 500;
   justify-content: center;
   line-height: 160%;
 `;
@@ -56,21 +57,21 @@ export const DropDownHeader = styled("div")`
 
 export const DropDownListContainer = styled("div")`
   position: flex;
-  margin: 0 0 0 -4rem;
+  margin: 0 0 0 -3rem;
 `;
 
 export const DropDownList = styled("ul")`
   cursor: auto;
-  width: 5.5em;
-  position: center;
+  width: 114px;
+  position: absolute;
   padding: 0;
-  margin: 0.7em;
-
+  top: 1rem;
+    font-size: 18px;
   background: #ffffff;
   filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
-  font-weight: 900;
-  justify-content: "center";
-
+  font-weight: 500;
+  justify-content: center;
+    align-items: center;
   &:first-child {
     padding-top: 0.8em;
   }
@@ -83,13 +84,14 @@ export const ListItem = styled("li")`
   cursor: pointer;
   list-style: none;
   margin-bottom: 0.8em;
-  padding-left: 1rem;
+  padding-left: 20px;
 `;
 export const VectorLabel = styled.label`
   cursor: pointer;
   position: absolute;
-  bottom: 0.1rem;
-  right: 0.1rem;
+  bottom: 0.6rem;
+  left: 0.75rem;
+  display: flex;
 `;
 export const BasketContainer = styled.div`
   align-self: center;
@@ -105,7 +107,7 @@ export const DropDownMiniCartHeader = styled("div")`
   cursor: pointer;
   content-align: center;
   justify-content: space-around;
-  font-weight: 700;
+  font-weight: 500;
   z-index: 999;
   position: absolute;
   padding: 0;
@@ -155,7 +157,8 @@ export const CartCounterLabel = styled.label`
   color: white;
   cursor: pointer;
   border-radius: 1000rem;
-  font-weight: 900;
+  font-weight: 700;
+  font-family: Roboto;
   width: 20px;
   height: 20px;
   position: absolute;
@@ -165,6 +168,10 @@ export const CartCounterLabel = styled.label`
   bottom: 1rem;
   z-index: 999;
 `;
+
+export const CartCounterValue = styled.p `
+margin: 0.05rem;
+`
 
 export const TotalPriceContainer = styled.div`
 position: fixed;
@@ -177,7 +184,7 @@ z-index: 997;
 width: 17.2rem;
 height: 5rem;
 background-color: white;
-font-weight: 900;
+font-weight: 700;
 `;
 
 export const TotalPriceLabelContainer = styled.div `
